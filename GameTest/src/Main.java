@@ -1,3 +1,4 @@
+import Containers.Vector;
 import Entities.*;
 
 import java.awt.*;
@@ -7,7 +8,9 @@ import java.util.Random;
 public class Main {
     private static ArrayList<EntityType> enemies;
     private static GameFrame frame;
-    private static final Player player = new Player(new PlayerController());
+
+    private static final Player player = new Player(new PlayerController(),
+                                                    new Vector(0, 0));
 
     public static void main(String[] args) {
         boolean isRunning = true;

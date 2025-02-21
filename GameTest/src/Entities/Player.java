@@ -9,8 +9,9 @@ public class Player extends JPanel implements EntityType {
     private Vector vector;
     private final PlayerController controller;
 
-    public Player(PlayerController controller) {
+    public Player(PlayerController controller, Vector vector) {
         this.controller = controller;
+        this.vector = vector;
         setProperties();
     }
 
@@ -27,7 +28,7 @@ public class Player extends JPanel implements EntityType {
 
     public void moveTo(float dx, float dy) {
         vector.setX(vector.getX() + dx);
-        vector.setY(vector.getY() + dx);
+        vector.setY(vector.getY() + dy);
         setLocation((int)vector.getX(), (int)vector.getY());
     }
 

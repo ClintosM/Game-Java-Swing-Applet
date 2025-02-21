@@ -10,15 +10,13 @@ public class Vector {
      }
 
     public float getNormalisedX(Vector vector) {
-        float xDiff = this.x - vector.x;
-        float absoluteDistance = absoluteDistance(vector);
-        return xDiff / absoluteDistance;
+        float xDiff = vector.x - this.x;
+        return xDiff /  signedDistance(vector);
     }
 
     public float getNormalisedY(Vector vector) {
-        float yDiff = this.y - vector.y;
-        float absoluteDistance = absoluteDistance(vector);
-        return yDiff / absoluteDistance;
+        float yDiff = vector.y - this.y;
+        return yDiff / signedDistance(vector);
     }
 
      public float absoluteDistance(Vector vector) {
@@ -30,6 +28,16 @@ public class Vector {
          // C Squared = Sqrt of A squared + B squared.
          return ((float) Math.sqrt(aSquared + bSquared));
      }
+
+    public float signedDistance(Vector vector) {
+        float xDiff = this.x - vector.x;
+        float yDiff = this.y - vector.y;
+        float aSquared = xDiff * xDiff;
+        float bSquared = yDiff * yDiff;
+
+        // C Squared = Sqrt of A squared + B squared.
+        return ((float) Math.sqrt(aSquared + bSquared));
+    }
 
      public float getX() {
          return this.x;

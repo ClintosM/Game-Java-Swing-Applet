@@ -29,15 +29,21 @@ class PanelsRunnable implements Runnable {
 
         for (int y = startY; y < endY; y += panelSize) {
             for (int x = startX; x < endX; x += panelSize) {
-                Color color = new Color(new Random().nextInt());
+                Color color = frame.labelAdded ? Color.BLACK : new Color(new Random().nextInt());
 
                 JPanel panel = new JPanel();
+
                 panel.setBackground(color);
                 panel.setLocation(x, y);
                 panel.setSize(panelSize, panelSize);
 
                 frame.add(panel);
                 frame.repaint();
+//                try {
+//                    Thread.sleep(20);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
             }
         }
         System.out.println(name + " Completed task");

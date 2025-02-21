@@ -6,6 +6,8 @@ public class GameFrame extends JFrame {
     private final static int HEIGHT = WIDTH / 16 * 9;
     private final static String TITLE = "GAME LOOP PROJECT";
 
+    public boolean labelAdded = false;
+
     public GameFrame() {
         this.setSize(new Dimension(GameFrame.WIDTH, GameFrame.HEIGHT));
         this.setLayout(null);

@@ -1,4 +1,5 @@
 import Entities.*;
+import Entities.Player.Player;
 
 import javax.swing.*;
 

@@ -1,16 +1,17 @@
 import Containers.Vector;
 import Entities.*;
+import Entities.Enemies.Enemy;
+import Entities.Enemies.EnemyController;
+import Entities.Player.Player;
+import Entities.Player.PlayerController;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
-    private static ArrayList<EntityType> enemies;
     private static GameFrame frame;
-
-    private static final Player player = new Player(new PlayerController(),
-                                                    new Vector(0, 0));
+    private static final Player player = new Player(new PlayerController(), new Vector(0, 0));
+    private static ArrayList<EntityType> enemies;
 
     public static void main(String[] args) {
         boolean isRunning = true;
@@ -19,15 +20,11 @@ public class Main {
         frame.addPlayer(player);
         frame.setVisible(true);
 
-        enemies = getEnemies();
+        enemies = createEnemies();
         addEntitiesToFrame();
 
         Game game = new Game(isRunning, player, enemies);
         new Thread(new Render(game)).start();
-    }
-
-    private static ArrayList<EntityType> getEnemies() {
-        return createEnemies();
     }
 
     // TODO: - Refactor to have some type of EnemyManager delegate
@@ -36,17 +33,17 @@ public class Main {
         EnemyController enemyController = new EnemyController(player);
         Random random = new Random();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             int xPos = random.nextInt(frame.getWidth());
             int yPos = random.nextInt(frame.getHeight());
 
-            Enemy enemy = getEnemy(enemyController, xPos, yPos);
+            Enemy enemy = createEnemy(enemyController, xPos, yPos);
             enemyArrayList.add(enemy);
         }
         return enemyArrayList;
     }
 
-    private static Enemy getEnemy(EnemyController enemyController, int xPos, int yPos) {
+    private static Enemy createEnemy(EnemyController enemyController, int xPos, int yPos) {
         return new Enemy(enemyController, xPos, yPos);
     }
 

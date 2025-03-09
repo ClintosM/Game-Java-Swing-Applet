@@ -9,6 +9,8 @@ public class Vector {
         this.y = y;
      }
 
+     // Vector Math
+
     public float getNormalisedX(Vector vector) {
         float xDiff = vector.x - this.x;
         return xDiff /  signedDistance(vector);
@@ -25,7 +27,6 @@ public class Vector {
          float aSquared = xDiff * xDiff;
          float bSquared = yDiff * yDiff;
 
-         // C Squared = Sqrt of A squared + B squared.
          return ((float) Math.sqrt(aSquared + bSquared));
      }
 
@@ -35,8 +36,12 @@ public class Vector {
         float aSquared = xDiff * xDiff;
         float bSquared = yDiff * yDiff;
 
-        // C Squared = Sqrt of A squared + B squared.
         return ((float) Math.sqrt(aSquared + bSquared));
+    }
+
+    public void setVector(float newX, float newY) {
+        this.x = newX;
+        this.y = newY;
     }
 
      public float getX() {

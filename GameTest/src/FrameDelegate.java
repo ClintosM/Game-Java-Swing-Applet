@@ -1,6 +1,5 @@
 import Entities.EntityType;
-import Entities.Player;
-import Entities.PlayerController;
+import Entities.Player.Player;
 
 import java.awt.*;
 

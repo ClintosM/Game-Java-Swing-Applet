@@ -1,5 +1,5 @@
 import Entities.EntityType;
-import Entities.Player;
+import Entities.Player.Player;
 import java.util.ArrayList;
 
 public class Game {
@@ -17,8 +17,8 @@ public class Game {
     public void update() {
         player.update();
 
-        for(int i = 0;  i < enemies.size(); i++) {
-            enemies.get(i).update();
+        for (EntityType enemy : enemies) {
+            enemy.update();
         }
     }
 }

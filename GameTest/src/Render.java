@@ -2,7 +2,9 @@ public class Render implements Runnable {
 
     private final Game game;
     private double lastTime = System.nanoTime();
-    private final double nsPerUpdate = 1000000000.0 / 60.0;
+
+    // TODO: - Add some kind of deltaTime...
+    private final double tickRate = 1000000000.0 / 60.0;
 
     public Render(Game game) {
         this.game = game;
@@ -12,10 +14,10 @@ public class Render implements Runnable {
     public void run() {
         while (game.isRunning) {
             double elapsedTime = System.nanoTime() - lastTime;
-            if ((elapsedTime) >= nsPerUpdate) {
+            if ((elapsedTime) >= tickRate) {
 
                 game.update();
-                lastTime += nsPerUpdate;
+                lastTime += tickRate;
 
             }
         }

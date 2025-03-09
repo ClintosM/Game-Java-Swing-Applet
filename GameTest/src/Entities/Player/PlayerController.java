@@ -1,4 +1,4 @@
-package Entities;
+package Entities.Player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,15 +14,13 @@ public class PlayerController implements KeyListener {
     public void keyTyped(KeyEvent e) { }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        keyEvents.add(key);
+    public void keyPressed(KeyEvent key) {
+        keyEvents.add(key.getKeyCode());
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        keyEvents.remove(key);
+    public void keyReleased(KeyEvent key) {
+        keyEvents.remove(key.getKeyCode());
     }
 
     protected void update(Player player) {

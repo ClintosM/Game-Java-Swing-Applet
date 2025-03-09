@@ -1,12 +1,13 @@
-package Entities;
+package Entities.Player;
 import Containers.Vector;
+import Entities.EntityType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
 public class Player extends JPanel implements EntityType {
-    private Vector vector;
+    private final Vector vector;
     private final PlayerController controller;
 
     public Player(PlayerController controller, Vector vector) {
@@ -27,8 +28,9 @@ public class Player extends JPanel implements EntityType {
     }
 
     public void moveTo(float dx, float dy) {
-        vector.setX(vector.getX() + dx);
-        vector.setY(vector.getY() + dy);
+        float newX = vector.getX() + dx;
+        float newY = vector.getY() + dy;
+        vector.setVector(newX, newY);
         setLocation((int)vector.getX(), (int)vector.getY());
     }
 

@@ -1,14 +1,14 @@
-package Entities;
+package Entities.Enemies;
 import Containers.Vector;
+import Entities.EntityType;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Enemy extends JPanel implements EntityType {
-    public Vector vector;
+    final Vector vector;
     private final EnemyController controller;
-
-    boolean isFollowing;
+    EnemyState state = EnemyState.idle;
 
     public Enemy(EnemyController controller, float startX, float startY) {
         this.controller = controller;
@@ -23,10 +23,11 @@ public class Enemy extends JPanel implements EntityType {
         setVisible(true);
     }
 
-    protected void moveTo(float dx, float dy) {
-        vector.setX(vector.getX() + dx);
-        vector.setY(vector.getY() + dy);
-        setLocation( ((int)vector.getX()), ((int)vector.getY()));
+    public void moveTo(float dx, float dy) {
+        float newX = vector.getX() + dx;
+        float newY = vector.getY() + dy;
+        vector.setVector(newX, newY);
+        setLocation((int)vector.getX(), (int)vector.getY());
     }
 
     @Override

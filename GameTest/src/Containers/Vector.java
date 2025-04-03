@@ -9,8 +9,6 @@ public class Vector {
         this.y = y;
      }
 
-     // Vector Math
-
     public float getNormalisedX(Vector vector) {
         float xDiff = vector.x - this.x;
         return xDiff /  signedDistance(vector);

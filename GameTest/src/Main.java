@@ -1,7 +1,6 @@
 import Containers.Vector;
 import Entities.*;
-import Entities.Enemies.Enemy;
-import Entities.Enemies.EnemyController;
+import Entities.Enemies.*;
 import Entities.Player.Player;
 import Entities.Player.PlayerController;
 
@@ -18,22 +17,21 @@ public class Main {
 
         frame = new GameFrame(new FrameDelegate());
         frame.addPlayer(player);
-        frame.setVisible(true);
-
-        enemies = createEnemies();
+        enemies = createEnemies(3);
         addEntitiesToFrame();
 
         Game game = new Game(isRunning, player, enemies);
         new Thread(new Render(game)).start();
+        frame.setVisible(true);
     }
 
     // TODO: - Refactor to have some type of EnemyManager delegate
-    private static ArrayList<EntityType> createEnemies() {
+    private static ArrayList<EntityType> createEnemies(int enemyCount) {
         ArrayList<EntityType> enemyArrayList = new ArrayList<EntityType>();
         EnemyController enemyController = new EnemyController(player);
         Random random = new Random();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < enemyCount; i++) {
             int xPos = random.nextInt(frame.getWidth());
             int yPos = random.nextInt(frame.getHeight());
 
@@ -44,7 +42,8 @@ public class Main {
     }
 
     private static Enemy createEnemy(EnemyController enemyController, int xPos, int yPos) {
-        return new Enemy(enemyController, xPos, yPos);
+        EnemyProperties enemyProperties = new EnemyProperties(4, 10, xPos, yPos, EnemyState.idle, 250);
+        return new Enemy(enemyController, enemyProperties);
     }
 
     private static void addEntitiesToFrame() {

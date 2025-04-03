@@ -15,11 +15,11 @@ public class EnemyController {
 
     private float getDistanceFromEntity(Enemy enemy) {
         Vector targetVector = entity.getVector();
-        return enemy.vector.absoluteDistance(targetVector);
+        return enemy.properties.vector.absoluteDistance(targetVector);
     }
 
     private void handleState(Enemy enemy) {
-       switch (enemy.state) {
+       switch (enemy.properties.state) {
            case idle -> {
                checkDistanceToEntity(enemy);
            }
@@ -34,25 +34,23 @@ public class EnemyController {
     }
 
     private void chaseEntity(Enemy enemy) {
-        if (enemy.state != EnemyState.chase) {
+        if (enemy.properties.state != EnemyState.chase) {
             return;
         }
         Vector targetVector = entity.getVector();
-        float dx = enemy.vector.getNormalisedX(targetVector) * 3;
-        float dy = enemy.vector.getNormalisedY(targetVector) * 3;
+        float dx = enemy.properties.vector.getNormalisedX(targetVector) * 3;
+        float dy = enemy.properties.vector.getNormalisedY(targetVector) * 3;
         enemy.moveTo(dx, dy);
     }
 
     private void checkDistanceToEntity(Enemy enemy) {
         float distance = getDistanceFromEntity(enemy);
-        if (distance < 250) {
-            enemy.state = EnemyState.chase;
+        if (distance < enemy.properties.sightRadius) {
+            enemy.properties.state = EnemyState.chase;
         }
-        if (distance >= 400) {
+        if (distance >= enemy.properties.sightRadius * 2) {
             // Temporary solution to state management. TODO: - Find way to make this dynamic...
-            enemy.state = EnemyState.idle;
+            enemy.properties.state = EnemyState.idle;
         }
     }
-
-
 }

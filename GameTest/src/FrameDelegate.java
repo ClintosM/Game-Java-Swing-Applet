@@ -4,7 +4,8 @@ import Entities.Player.Player;
 import java.awt.*;
 
 public class FrameDelegate {
-    public FrameDelegate() { }
+    public FrameDelegate() {
+    }
 
     protected void addEntity(GameFrame frame, EntityType entity) {
         frame.add((Component) entity);
@@ -19,4 +20,4 @@ public class FrameDelegate {
         frame.add((Component) player);
         frame.addKeyListener(player.getKeyListener());
     }
- }
+}

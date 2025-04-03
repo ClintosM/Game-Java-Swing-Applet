@@ -1,10 +1,10 @@
 import Entities.EntityType;
 import Entities.Player.Player;
+
 import java.util.ArrayList;
 
 public class Game {
     public final boolean isRunning;
-
     private final Player player;
     private final ArrayList<EntityType> enemies;
 
@@ -16,7 +16,6 @@ public class Game {
 
     public void update() {
         player.update();
-
         for (EntityType enemy : enemies) {
             enemy.update();
         }

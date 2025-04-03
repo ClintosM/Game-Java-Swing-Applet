@@ -1,4 +1,5 @@
 package Entities.Enemies;
+
 import Containers.Vector;
 import Entities.EntityType;
 
@@ -6,33 +7,32 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Enemy extends JPanel implements EntityType {
-    final Vector vector;
     private final EnemyController controller;
-    EnemyState state = EnemyState.idle;
+    final EnemyProperties properties;
 
-    public Enemy(EnemyController controller, float startX, float startY) {
+    public Enemy(EnemyController controller, EnemyProperties properties) {
         this.controller = controller;
-        this.vector = new Vector(startX, startY);
-        setProperties();
+        this.properties = properties;
+        setupJPanel();
     }
 
-    private void setProperties() {
+    private void setupJPanel() {
         setSize(64, 64);
         setBackground(Color.RED);
-        setLocation((int) vector.getX(), (int) vector.getY());
+        setLocation((int) properties.vector.getX(), (int) properties.vector.getY());
         setVisible(true);
     }
 
     public void moveTo(float dx, float dy) {
-        float newX = vector.getX() + dx;
-        float newY = vector.getY() + dy;
-        vector.setVector(newX, newY);
-        setLocation((int)vector.getX(), (int)vector.getY());
+        float newX = properties.vector.getX() + dx;
+        float newY = properties.vector.getY() + dy;
+        properties.vector.setVector(newX, newY);
+        setLocation((int) properties.vector.getX(), (int) properties.vector.getY());
     }
 
     @Override
     public Vector getVector() {
-        return vector;
+        return properties.vector;
     }
 
     @Override

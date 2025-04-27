@@ -1,6 +1,9 @@
 package Entities.Enemies;
+
 import Containers.Vector;
 import Entities.EntityType;
+
+import java.awt.*;
 
 public class EnemyController {
     EntityType entity;
@@ -19,24 +22,25 @@ public class EnemyController {
     }
 
     private void handleState(Enemy enemy) {
-       switch (enemy.properties.state) {
-           case idle -> {
-               checkDistanceToEntity(enemy);
-           }
-           case wander -> {
-               // TODO: - Add wandering logic
-           }
-           case chase -> {
-               chaseEntity(enemy);
-               checkDistanceToEntity(enemy);
-           }
-       }
+        switch (enemy.properties.state) {
+            case idle -> {
+                enemy.setBackground(Color.orange);
+                checkDistanceToEntity(enemy);
+            }
+            case wander -> {
+                // TODO: - Add wondering logic
+            }
+            case chase -> {
+                enemy.setBackground(Color.red);
+                chaseEntity(enemy);
+                checkDistanceToEntity(enemy);
+            }
+        }
     }
 
     private void chaseEntity(Enemy enemy) {
-        if (enemy.properties.state != EnemyState.chase) {
-            return;
-        }
+        if (enemy.properties.state != EnemyState.chase) return;
+
         Vector targetVector = entity.getVector();
         float dx = enemy.properties.vector.getNormalisedX(targetVector) * 3;
         float dy = enemy.properties.vector.getNormalisedY(targetVector) * 3;
@@ -45,11 +49,12 @@ public class EnemyController {
 
     private void checkDistanceToEntity(Enemy enemy) {
         float distance = getDistanceFromEntity(enemy);
+
         if (distance < enemy.properties.sightRadius) {
             enemy.properties.state = EnemyState.chase;
         }
-        if (distance >= enemy.properties.sightRadius * 2) {
-            // Temporary solution to state management. TODO: - Find way to make this dynamic...
+
+        if (distance >= enemy.properties.sightRadius * 1.25) {
             enemy.properties.state = EnemyState.idle;
         }
     }

@@ -19,7 +19,7 @@ public class Enemy extends JPanel implements EntityType {
     private void setupJPanel() {
         setSize(64, 64);
         setBackground(Color.RED);
-        setLocation((int) properties.vector.getX(), (int) properties.vector.getY());
+        setLocationWithVector();
         setVisible(true);
     }
 
@@ -27,6 +27,10 @@ public class Enemy extends JPanel implements EntityType {
         float newX = properties.vector.getX() + dx;
         float newY = properties.vector.getY() + dy;
         properties.vector.setVector(newX, newY);
+        setLocationWithVector();
+    }
+
+    private void setLocationWithVector() {
         setLocation((int) properties.vector.getX(), (int) properties.vector.getY());
     }
 

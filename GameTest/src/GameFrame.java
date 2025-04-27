@@ -1,7 +1,11 @@
+import Collision.TileType;
+import Collision.Wall;
 import Entities.*;
 import Entities.Player.Player;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class GameFrame extends JFrame {
     private final String TITLE = "Test Game";
@@ -16,6 +20,10 @@ public class GameFrame extends JFrame {
         this.setSize(WIDTH, HEIGHT);
         this.setLayout(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void addTiles(ArrayList<TileType> tiles) {
+        delegate.addTiles(this, tiles);
     }
 
     public void addEntity(EntityType entity) {

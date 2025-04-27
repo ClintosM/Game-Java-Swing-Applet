@@ -1,5 +1,4 @@
 public class Render implements Runnable {
-
     private final Game game;
     private double lastTime = System.nanoTime();
 
@@ -16,10 +15,8 @@ public class Render implements Runnable {
         while (game.isRunning) {
             double elapsedTime = System.nanoTime() - lastTime;
             if ((elapsedTime) >= tickRate) {
-
                 game.update();
                 lastTime += tickRate;
-
             }
         }
     }

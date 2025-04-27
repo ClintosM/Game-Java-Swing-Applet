@@ -13,7 +13,6 @@ import java.util.Random;
 
 public class EntityManager {
     // MARK: - Player Stuff
-    // Prepare for basic multiplayer functionality? This would need to be an arraylist if that's the case...
     private final EntityType player = new Player(new PlayerController(), new Vector(64, 64));
 
     // MARK: - Enemy Stuff

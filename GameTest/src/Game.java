@@ -29,7 +29,11 @@ public class Game {
         }
     }
 
+    // MARK: - Calls to frame
+    // TODO: - Add delegate to delegate communication with other objects
+
     private void setup() {
+
         addEntitiesToFrame();
         addTilesToFrame();
     }
@@ -41,7 +45,6 @@ public class Game {
         }
     }
 
-    // Temporary implementation. Add tile manager class next PR
     private void addTilesToFrame() {
         frame.addTiles(tileManager.getTiles());
     }

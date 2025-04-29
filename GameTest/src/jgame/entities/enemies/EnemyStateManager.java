@@ -1,6 +1,6 @@
-package Entities.Enemies;
+package jgame.entities.enemies;
 
-import Containers.Vector;
+import jgame.containers.Vector;
 
 public class EnemyStateManager {
     EnemyState state;

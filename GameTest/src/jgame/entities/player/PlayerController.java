@@ -1,4 +1,4 @@
-package Entities.Player;
+package jgame.entities.player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,10 +8,12 @@ import java.util.Set;
 public class PlayerController implements KeyListener {
     private final Set<Integer> keyEvents = new HashSet<Integer>();
 
-    public PlayerController() { }
+    public PlayerController() {
+    }
 
     @Override
-    public void keyTyped(KeyEvent e) { }
+    public void keyTyped(KeyEvent e) {
+    }
 
     @Override
     public void keyPressed(KeyEvent key) {
@@ -24,6 +26,10 @@ public class PlayerController implements KeyListener {
     }
 
     protected void update(Player player) {
+        movementChecks(player);
+    }
+
+    private void movementChecks(Player player) {
         int up = KeyEvent.VK_W;
         int down = KeyEvent.VK_S;
         int left = KeyEvent.VK_A;

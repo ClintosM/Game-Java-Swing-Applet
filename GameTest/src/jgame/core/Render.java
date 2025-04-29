@@ -1,3 +1,5 @@
+package jgame.core;
+
 public class Render implements Runnable {
     private final Game game;
     private double lastTime = System.nanoTime();

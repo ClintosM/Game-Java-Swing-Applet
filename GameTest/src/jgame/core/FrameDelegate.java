@@ -1,7 +1,8 @@
-import Collision.TileType;
-import Collision.Wall;
-import Entities.EntityType;
-import Entities.Player.Player;
+package jgame.core;
+
+import jgame.collision.TileType;
+import jgame.entities.common.EntityType;
+import jgame.entities.player.Player;
 
 import java.awt.*;
 import java.util.ArrayList;

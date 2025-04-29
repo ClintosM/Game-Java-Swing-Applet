@@ -1,23 +1,27 @@
-package Entities;
+package jgame.entities.common;
 
-import Containers.Vector;
-import Entities.Enemies.Enemy;
-import Entities.Enemies.EnemyController;
-import Entities.Enemies.EnemyProperties;
-import Entities.Enemies.EnemyState;
-import Entities.Player.Player;
-import Entities.Player.PlayerController;
+import jgame.collision.EntitySize;
+import jgame.containers.Vector;
+import jgame.entities.enemies.Enemy;
+import jgame.entities.enemies.EnemyController;
+import jgame.entities.enemies.EnemyProperties;
+import jgame.entities.enemies.EnemyState;
+import jgame.entities.player.Player;
+import jgame.entities.player.PlayerController;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class EntityManager {
     // MARK: - Player Stuff
-    private final EntityType player = new Player(new PlayerController(), new Vector(64, 64));
+    private final PlayerController playerController = new PlayerController();
+    private final Vector playerVector = new Vector(64, 64);
+    private final EntitySize playerSize = new EntitySize(32, 32);
+    private final EntityType player = new Player(playerController, playerVector, playerSize);
 
     // MARK: - Enemy Stuff
-    private ArrayList<EntityType> enemies;
-    private EnemyController enemyController;
+    private final ArrayList<EntityType> enemies;
+    private final EnemyController enemyController;
 
     public EntityManager(int enemyCount) {
         this.enemyController = new EnemyController(player);
@@ -36,7 +40,7 @@ public class EntityManager {
     }
 
     private Enemy createEnemy(EnemyController enemyController, int xPos, int yPos) {
-        EnemyProperties enemyProperties = new EnemyProperties(4, 10, xPos, yPos, EnemyState.idle, 250);
+        EnemyProperties enemyProperties = new EnemyProperties(4, 10, xPos, yPos, 32, EnemyState.idle, 250);
         return new Enemy(enemyController, enemyProperties);
     }
 

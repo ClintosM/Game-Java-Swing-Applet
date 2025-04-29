@@ -1,4 +1,4 @@
-package Collision;
+package jgame.collision;
 
 import javax.swing.*;
 import java.awt.*;

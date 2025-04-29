@@ -1,7 +1,7 @@
-package Entities.Enemies;
+package jgame.entities.enemies;
 
-import Containers.Vector;
-import Entities.EntityType;
+import jgame.containers.Vector;
+import jgame.entities.common.EntityType;
 
 import java.awt.*;
 

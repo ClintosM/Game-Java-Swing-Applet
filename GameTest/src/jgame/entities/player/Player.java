@@ -1,6 +1,8 @@
-package Entities.Player;
-import Containers.Vector;
-import Entities.EntityType;
+package jgame.entities.player;
+
+import jgame.collision.EntitySize;
+import jgame.containers.Vector;
+import jgame.entities.common.EntityType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,18 +10,20 @@ import java.awt.event.KeyListener;
 
 public class Player extends JPanel implements EntityType {
     private final Vector vector;
+    private final EntitySize entitySize;
     private final PlayerController controller;
 
-    public Player(PlayerController controller, Vector vector) {
+    public Player(PlayerController controller, Vector vector, EntitySize entitySize) {
         this.controller = controller;
         this.vector = vector;
+        this.entitySize = entitySize;
         setProperties();
     }
 
     private void setProperties() {
         setSize(64, 64);
         setBackground(Color.BLUE);
-        setLocation((int)vector.getX(), (int)vector.getY());
+        setLocation((int) vector.getX(), (int) vector.getY());
         setVisible(true);
     }
 
@@ -31,11 +35,15 @@ public class Player extends JPanel implements EntityType {
         float newX = vector.getX() + dx;
         float newY = vector.getY() + dy;
         vector.setVector(newX, newY);
-        setLocation((int)vector.getX(), (int)vector.getY());
+        setLocation((int) vector.getX(), (int) vector.getY());
     }
 
     public Vector getVector() {
-        return this.vector;
+        return vector;
+    }
+
+    public EntitySize getEntitySize() {
+        return entitySize;
     }
 
     @Override

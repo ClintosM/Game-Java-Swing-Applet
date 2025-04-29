@@ -1,13 +1,8 @@
-import Collision.TileType;
-import Collision.Wall;
-import Entities.EntityManager;
-import Entities.EntityType;
+package jgame.core;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
-
-// TODO: TileManager class to manage tiles
+import jgame.entities.common.EntityManager;
+import jgame.entities.common.EntityType;
+import jgame.world.TileManager;
 
 public class Game {
     public final boolean isRunning;
@@ -29,11 +24,9 @@ public class Game {
         }
     }
 
-    // MARK: - Calls to frame
-    // TODO: - Add delegate to delegate communication with other objects
+    // TODO: - Add delegate to delegate communication with external objects
 
     private void setup() {
-
         addEntitiesToFrame();
         addTilesToFrame();
     }

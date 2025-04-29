@@ -1,14 +1,14 @@
-import Collision.TileType;
-import Collision.Wall;
-import Entities.*;
-import Entities.Player.Player;
+package jgame.core;
+
+import jgame.collision.TileType;
+import jgame.entities.player.Player;
+import jgame.entities.common.EntityType;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class GameFrame extends JFrame {
-    private final String TITLE = "Test Game";
+    private final String TITLE = "Test jgame.core.Game";
     private final int WIDTH = 1920;
     private final int HEIGHT = WIDTH / 16 * 9;
 

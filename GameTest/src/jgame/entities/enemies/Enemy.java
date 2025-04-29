@@ -1,7 +1,8 @@
-package Entities.Enemies;
+package jgame.entities.enemies;
 
-import Containers.Vector;
-import Entities.EntityType;
+import jgame.collision.EntitySize;
+import jgame.containers.Vector;
+import jgame.entities.common.EntityType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +38,11 @@ public class Enemy extends JPanel implements EntityType {
     @Override
     public Vector getVector() {
         return properties.vector;
+    }
+
+    @Override
+    public EntitySize getEntitySize() {
+        return properties.size;
     }
 
     @Override

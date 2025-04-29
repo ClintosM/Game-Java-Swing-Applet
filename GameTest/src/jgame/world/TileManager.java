@@ -1,5 +1,7 @@
-import Collision.TileType;
-import Collision.Wall;
+package jgame.world;
+
+import jgame.collision.TileType;
+import jgame.collision.Wall;
 
 import java.awt.*;
 import java.util.ArrayList;

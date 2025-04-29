@@ -1,4 +1,4 @@
-package Entities.Enemies;
+package jgame.entities.enemies;
 
 public enum EnemyState {
     idle,

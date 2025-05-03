@@ -1,5 +1,6 @@
 package jgame.collision;
 
+import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
 
 public interface CollidableType {
@@ -8,4 +9,5 @@ public interface CollidableType {
 
     Vector getVector();
 
+    SizeDimensionsType getSize();
 }

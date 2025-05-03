@@ -8,16 +8,13 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameFrame extends JFrame {
-    private final String TITLE = "Test jgame.core.Game";
-    private final int WIDTH = 1920;
-    private final int HEIGHT = WIDTH / 16 * 9;
-
+    private final String TITLE = "JGame Test";
     private final FrameDelegate delegate;
 
     public GameFrame(FrameDelegate delegate) {
         this.delegate = delegate;
         this.setTitle(TITLE);
-        this.setSize(WIDTH, HEIGHT);
+        this.setExtendedState(MAXIMIZED_BOTH);
         this.setLayout(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

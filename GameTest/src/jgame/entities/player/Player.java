@@ -1,6 +1,8 @@
 package jgame.entities.player;
 
-import jgame.collision.EntitySize;
+import jgame.collision.Collidable;
+import jgame.collision.CollidableType;
+import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
 import jgame.entities.common.EntityType;
 
@@ -10,45 +12,83 @@ import java.awt.event.KeyListener;
 
 public class Player extends JPanel implements EntityType {
     private final Vector vector;
-    private final EntitySize entitySize;
+    private final SizeDimensionsType size;
     private final PlayerController controller;
+    private final CollidableType collidable;
 
-    public Player(PlayerController controller, Vector vector, EntitySize entitySize) {
+    private PlayerState playerState = PlayerState.idle;
+
+    public Player(PlayerController controller, Vector vector, SizeDimensionsType size) {
         this.controller = controller;
         this.vector = vector;
-        this.entitySize = entitySize;
+        this.size = size;
+        this.collidable = new Collidable(vector, size);
         setProperties();
     }
 
     private void setProperties() {
-        setSize(64, 64);
+        setSize(size.getWidth(), size.getHeight());
         setBackground(Color.BLUE);
         setLocation((int) vector.getX(), (int) vector.getY());
         setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        controller.update(this);
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    // MARK: - Getters
+
+    private CollidableType currentCollidable = null;
+    private boolean isColliding = false;
+
+    public void checkForCollisions(CollidableType otherCollidable) {
+        boolean isCollidingWithCandidate = collidable.isColliding(otherCollidable);
+
+        this.setBackground(isColliding ? Color.green : Color.blue);
+
+        if (isCollidingWithCandidate && (currentCollidable == null)) {
+            currentCollidable = otherCollidable;
+            isColliding = true;
+            return;
+        } else if (!isCollidingWithCandidate && (currentCollidable == null)) {
+            return;
+        }
+
+        if (isCollidingWithCandidate) {
+            currentCollidable = otherCollidable;
+            isColliding = true;
+        }
+
+        if (collidable.isColliding(currentCollidable)) {
+            isColliding = true;
+        }
+
+        if (!isCollidingWithCandidate && !collidable.isColliding(currentCollidable)) {
+            currentCollidable = null;
+            isColliding = false;
+        }
     }
 
     public KeyListener getKeyListener() {
         return (KeyListener) controller;
     }
 
-    public void moveTo(float dx, float dy) {
-        float newX = vector.getX() + dx;
-        float newY = vector.getY() + dy;
-        vector.setVector(newX, newY);
-        setLocation((int) vector.getX(), (int) vector.getY());
-    }
-
     public Vector getVector() {
         return vector;
     }
 
-    public EntitySize getEntitySize() {
-        return entitySize;
+    public SizeDimensionsType getSizeDimensions() {
+        return size;
     }
 
-    @Override
-    public void update() {
-        controller.update(this);
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 }
 

@@ -1,11 +1,16 @@
 package jgame.collision;
 
+import jgame.containers.SizeDimensions;
+import jgame.containers.Vector;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Wall extends JPanel implements TileType {
     private int x;
     private int y;
+
+    private final CollidableType collidable;
 
     public Wall(int x, int y, int width, int height, Color color) {
         this.x = x;
@@ -14,6 +19,12 @@ public class Wall extends JPanel implements TileType {
         setTileColor(color);
         setTileLocation(x, y);
         this.setVisible(true);
+        this.collidable = new Collidable(new Vector(x, y), new SizeDimensions(width, height));
+    }
+
+    @Override
+    public CollidableType getCollidable() {
+        return collidable;
     }
 
     @Override

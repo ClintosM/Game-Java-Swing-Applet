@@ -1,5 +1,6 @@
 package jgame.core;
 
+import jgame.collision.TileType;
 import jgame.entities.common.EntityManager;
 import jgame.entities.common.EntityType;
 import jgame.world.TileManager;
@@ -8,12 +9,14 @@ public class Game {
     public final boolean isRunning;
     private final GameFrame frame;
 
-    private final EntityManager entityManager = new EntityManager(1);
-    private final TileManager tileManager = new TileManager(20, 15);
+    private final EntityManager entityManager;
+    private final TileManager tileManager;
 
-    public Game(boolean isRunning, GameFrame frame) {
+    public Game(boolean isRunning, GameFrame frame, TileManager tileManager, EntityManager entityManager) {
         this.isRunning = isRunning;
         this.frame = frame;
+        this.entityManager = entityManager;
+        this.tileManager = tileManager;
         setup();
     }
 
@@ -22,9 +25,11 @@ public class Game {
         for (EntityType enemy : entityManager.getEnemies()) {
             enemy.update();
         }
-    }
 
-    // TODO: - Add delegate to delegate communication with external objects
+        for (TileType tile : tileManager.getTiles()) {
+            entityManager.getPlayer().checkForCollisions(tile.getCollidable());
+        }
+    }
 
     private void setup() {
         addEntitiesToFrame();

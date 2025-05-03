@@ -1,6 +1,6 @@
 package jgame.entities.enemies;
 
-import jgame.collision.EntitySize;
+import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
 import jgame.entities.common.EntityType;
 
@@ -18,31 +18,31 @@ public class Enemy extends JPanel implements EntityType {
     }
 
     private void setupJPanel() {
-        setSize(64, 64);
+        setSize(properties.getSize().getWidth(), properties.getSize().getHeight());
         setBackground(Color.RED);
         setLocationWithVector();
         setVisible(true);
     }
 
     public void moveTo(float dx, float dy) {
-        float newX = properties.vector.getX() + dx;
-        float newY = properties.vector.getY() + dy;
-        properties.vector.setVector(newX, newY);
+        float newX = properties.getVector().getX() + dx;
+        float newY = properties.getVector().getY() + dy;
+        properties.getVector().setVector(newX, newY);
         setLocationWithVector();
     }
 
     private void setLocationWithVector() {
-        setLocation((int) properties.vector.getX(), (int) properties.vector.getY());
+        setLocation((int) getVector().getX(), (int) getVector().getY());
     }
 
     @Override
     public Vector getVector() {
-        return properties.vector;
+        return properties.getVector();
     }
 
     @Override
-    public EntitySize getEntitySize() {
-        return properties.size;
+    public SizeDimensionsType getSizeDimensions() {
+        return properties.getSize();
     }
 
     @Override

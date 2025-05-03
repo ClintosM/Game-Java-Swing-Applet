@@ -10,6 +10,8 @@ public interface TileType {
 
     void setTileSize(int width, int height);
 
+    CollidableType getCollidable();
+
     // Getters
     int getTileX();
 

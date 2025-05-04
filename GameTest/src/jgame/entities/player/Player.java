@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
-public class Player extends JPanel implements EntityType {
+public class Player implements EntityType {
     private final Vector vector;
     private final SizeDimensionsType size;
     private final PlayerController controller;
@@ -23,14 +23,17 @@ public class Player extends JPanel implements EntityType {
         this.vector = vector;
         this.size = size;
         this.collidable = new Collidable(vector, size);
-        setProperties();
     }
 
-    private void setProperties() {
-        setSize(size.getWidth(), size.getHeight());
-        setBackground(Color.BLUE);
-        setLocation((int) vector.getX(), (int) vector.getY());
-        setVisible(true);
+    @Override
+    public void render(Graphics2D g) {
+        g.setColor(currentColor);
+        g.fillRect(
+                (int) vector.getX(),
+                (int) vector.getY(),
+                size.getWidth(),
+                size.getHeight()
+        );
     }
 
     @Override
@@ -46,11 +49,14 @@ public class Player extends JPanel implements EntityType {
 
     private CollidableType currentCollidable = null;
     private boolean isColliding = false;
+    private Color currentColor = Color.BLUE;
 
     public void checkForCollisions(CollidableType otherCollidable) {
         boolean isCollidingWithCandidate = collidable.isColliding(otherCollidable);
 
-        this.setBackground(isColliding ? Color.green : Color.blue);
+        System.out.println("Is colliding: " + isCollidingWithCandidate);
+
+        this.currentColor = isColliding ? Color.GREEN : Color.BLUE;
 
         if (isCollidingWithCandidate && (currentCollidable == null)) {
             currentCollidable = otherCollidable;

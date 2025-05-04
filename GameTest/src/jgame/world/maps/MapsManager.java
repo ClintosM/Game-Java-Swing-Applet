@@ -17,6 +17,7 @@ import jgame.world.TileManager;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MapsManager {
     private final ArrayList<MapData> mapsData;
@@ -33,8 +34,8 @@ public class MapsManager {
     // Temporary initialisation style. Will always launch first map in array (reason for hardcoded 0)
     public MapsManager(ArrayList<String> mapResourceNames) {
         this.mapsData = parseMapResourcesToData(mapResourceNames);
-        mapPixelData = mapsData.get(0).getPixelsData();
-        determineMapLayout(mapsData.get(0));
+        mapPixelData = mapsData.getFirst().getPixelsData();
+        determineMapLayout(mapsData.getFirst());
     }
 
     private ArrayList<MapData> parseMapResourcesToData(ArrayList<String> mapResourceNames) {
@@ -61,6 +62,7 @@ public class MapsManager {
         int width = mapData.getMapWidth();
         int height = mapData.getMapHeight();
         int[] tileAndEntityPlacements = mapData.getPixelsData();
+        System.out.println(Arrays.toString(tileAndEntityPlacements));
 
         int currentRow = 0;
         int currentColumn = -1;

@@ -71,6 +71,5 @@ public class PlayerController implements KeyListener {
         float newX = player.getVector().getX() + dx;
         float newY = player.getVector().getY() + dy;
         player.getVector().setVector(newX, newY);
-        player.setLocation((int) newX, (int) newY);
     }
 }

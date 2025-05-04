@@ -3,8 +3,8 @@ package jgame.world.maps;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MapData {
     private final String resourceName;
@@ -30,11 +30,11 @@ public class MapData {
     }
 
     private BufferedImage parseBufferedImageFromResource(String resourceName) throws IOException {
-        try {
-            return ImageIO.read(new File("src/jgame/world/resources/maps/" + resourceName + ".png"));
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
+        InputStream in = getClass().getClassLoader().getResourceAsStream("jgame/world/resources/maps/" + resourceName + ".png");
+        if (in == null) {
+            throw new RuntimeException("Resource not found: " + resourceName);
         }
+        return ImageIO.read(in);
     }
 
     // MARK: - Public Getters

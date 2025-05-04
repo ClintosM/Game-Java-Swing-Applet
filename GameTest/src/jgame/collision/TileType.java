@@ -3,6 +3,9 @@ package jgame.collision;
 import java.awt.*;
 
 public interface TileType {
+
+    public void render(Graphics2D g);
+
     // Setters
     void setTileColor(Color color);
 
@@ -10,9 +13,10 @@ public interface TileType {
 
     void setTileSize(int width, int height);
 
+    // Getters
+
     CollidableType getCollidable();
 
-    // Getters
     int getTileX();
 
     int getTileY();

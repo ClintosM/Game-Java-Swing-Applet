@@ -5,23 +5,26 @@ import jgame.world.maps.MapsManager;
 import java.util.ArrayList;
 
 public class Main {
-
-    private static final GameFrame frame = new GameFrame(new FrameDelegate());
-
     public static void main(String[] args) {
+
+        GameCanvas canvas = new GameCanvas();
+        GameFrame frame = new GameFrame(canvas);
         MapsManager mapsManager = setupMaps();
-        launchGame(mapsManager);
+
+        launchGame(mapsManager, canvas);
+        frame.setVisible(true);
+        canvas.requestFocusInWindow();
     }
 
-    private static void launchGame(MapsManager mapsManager) {
-        Game game = new Game(true, frame, mapsManager.getTileManager(), mapsManager.getEntityManager());
-        new Thread(new Render(game)).start();
-        frame.setVisible(true);
+    private static void launchGame(MapsManager mapsManager, GameCanvas canvas) {
+        Game game = new Game(true, mapsManager.getTileManager(), mapsManager.getEntityManager());
+        canvas.addKeyListener(game.getPlayerKeyListener());
+        new Thread(new Render(game, canvas)).start();
     }
 
     private static MapsManager setupMaps() {
         ArrayList<String> mapResources = new ArrayList<String>();
-        mapResources.add("map2");
+        mapResources.add("map1");
         return new MapsManager(mapResources);
     }
 }

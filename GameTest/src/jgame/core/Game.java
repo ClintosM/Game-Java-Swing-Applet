@@ -5,19 +5,19 @@ import jgame.entities.common.EntityManager;
 import jgame.entities.common.EntityType;
 import jgame.world.TileManager;
 
+import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferStrategy;
+
 public class Game {
     public final boolean isRunning;
-    private final GameFrame frame;
-
     private final EntityManager entityManager;
     private final TileManager tileManager;
 
-    public Game(boolean isRunning, GameFrame frame, TileManager tileManager, EntityManager entityManager) {
+    public Game(boolean isRunning, TileManager tileManager, EntityManager entityManager) {
         this.isRunning = isRunning;
-        this.frame = frame;
         this.entityManager = entityManager;
         this.tileManager = tileManager;
-        setup();
     }
 
     public void update() {
@@ -31,19 +31,12 @@ public class Game {
         }
     }
 
-    private void setup() {
-        addEntitiesToFrame();
-        addTilesToFrame();
+    public void render(Graphics2D g) {
+        entityManager.render(g);
+        tileManager.render(g);
     }
 
-    private void addEntitiesToFrame() {
-        frame.addPlayer(entityManager.getPlayer());
-        for (EntityType enemy : entityManager.getEnemies()) {
-            frame.addEntity(enemy);
-        }
-    }
-
-    private void addTilesToFrame() {
-        frame.addTiles(tileManager.getTiles());
+    public KeyListener getPlayerKeyListener() {
+        return entityManager.getPlayer().getKeyListener();
     }
 }

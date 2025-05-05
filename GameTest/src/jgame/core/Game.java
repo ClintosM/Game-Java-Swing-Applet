@@ -32,8 +32,8 @@ public class Game {
     }
 
     public void render(Graphics2D g) {
-        entityManager.render(g);
         tileManager.render(g);
+        entityManager.render(g);
     }
 
     public KeyListener getPlayerKeyListener() {

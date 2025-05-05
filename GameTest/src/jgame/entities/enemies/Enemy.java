@@ -18,7 +18,7 @@ public class Enemy implements EntityType {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.YELLOW);
+        graphics2D.setColor(properties.getColor());
         graphics2D.fillRect(
                 (int) getVector().getX(),
                 (int) getVector().getY(),

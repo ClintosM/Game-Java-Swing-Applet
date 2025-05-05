@@ -4,12 +4,16 @@ import jgame.containers.SizeDimensions;
 import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
 
+import java.awt.*;
+
 // TODO: - Add getters and setters (and make fields private)
 public class EnemyProperties {
     private final int health;
     private final int speed;
     private final Vector vector;
     private final SizeDimensionsType size;
+
+    private Color color = Color.YELLOW;
 
     EnemyState state;
     int sightRadius;
@@ -28,6 +32,8 @@ public class EnemyProperties {
         this.state = state;
         this.sightRadius = sightRadius;
     }
+
+    // MARK: - Getters
 
     public int getHealth() {
         return health;
@@ -51,5 +57,15 @@ public class EnemyProperties {
 
     public SizeDimensionsType getSize() {
         return size;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    // MARK: - Setters
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

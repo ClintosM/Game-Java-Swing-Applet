@@ -31,14 +31,14 @@ public class EnemyController {
     private void handleState(Enemy enemy) {
         switch (enemy.properties.getState()) {
             case idle -> {
-                //enemy.setBackground(Color.orange);
+                enemy.properties.setColor(Color.YELLOW);
                 checkDistanceToEntity(enemy);
             }
             case wander -> {
                 // TODO: - Add wondering logic
             }
             case chase -> {
-                //enemy.setBackground(Color.red);
+                enemy.properties.setColor(Color.RED);
                 chaseEntity(enemy);
                 checkDistanceToEntity(enemy);
             }

@@ -13,9 +13,6 @@ public class PlayerController implements KeyListener {
     private final int left = KeyEvent.VK_A;
     private final int right = KeyEvent.VK_D;
 
-    // Temp. Should be invoked externally from some kind of PlayerProperties class
-    private final int playerSpeed = 4;
-
     public PlayerController() {
     }
 
@@ -38,18 +35,31 @@ public class PlayerController implements KeyListener {
     }
 
     private void updatePosition(Player player) {
+        float playerSpeed = player.getPlayerProperties().getCurrentSpd();
         if (keyEvents.contains(up)) updateVector(player, 0, -playerSpeed);
         if (keyEvents.contains(down)) updateVector(player, 0, playerSpeed);
         if (keyEvents.contains(left)) updateVector(player, -playerSpeed, 0);
         if (keyEvents.contains(right)) updateVector(player, playerSpeed, 0);
     }
 
+    private void increasePlayerSpeed(Player player) {
+        PlayerProperties playerProperties = player.getPlayerProperties();
+        playerProperties.increaseCurrentSpd(0.1f);
+    }
+
+    private void decreasePlayerSpeed(Player player) {
+        PlayerProperties playerProperties = player.getPlayerProperties();
+        playerProperties.decreaseCurrentSpd(0.04f);
+    }
+
     private void handleStates(Player player) {
         switch (player.getPlayerState()) {
             case idle -> {
+                decreasePlayerSpeed(player);
                 checkKeyEventsToUpdateState(player);
             }
             case moving -> {
+                increasePlayerSpeed(player);
                 checkKeyEventsToUpdateState(player);
                 updatePosition(player);
             }

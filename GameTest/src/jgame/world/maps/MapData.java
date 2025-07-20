@@ -12,6 +12,9 @@ public class MapData {
     private int mapWidth;
     private int mapHeight;
 
+    private static final String PATH = "jgame/world/resources/maps/";
+    private static final String EXTENSION = ".png";
+
     public MapData(String resourceName) throws IOException {
         this.resourceName = resourceName;
         this.pixelsData = setPixelData();
@@ -30,7 +33,7 @@ public class MapData {
     }
 
     private BufferedImage parseBufferedImageFromResource(String resourceName) throws IOException {
-        InputStream in = getClass().getClassLoader().getResourceAsStream("jgame/world/resources/maps/" + resourceName + ".png");
+        InputStream in = getClass().getClassLoader().getResourceAsStream( PATH + resourceName + EXTENSION);
         if (in == null) {
             throw new RuntimeException("Resource not found: " + resourceName);
         }

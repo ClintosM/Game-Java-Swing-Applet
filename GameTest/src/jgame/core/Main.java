@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-
         GameCanvas canvas = new GameCanvas();
         GameFrame frame = new GameFrame(canvas);
         MapsManager mapsManager = setupMaps();

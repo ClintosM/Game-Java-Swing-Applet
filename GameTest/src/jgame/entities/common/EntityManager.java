@@ -6,7 +6,6 @@ import jgame.entities.player.PlayerController;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class EntityManager {
     // MARK: - Player Stuff

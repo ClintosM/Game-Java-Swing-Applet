@@ -6,7 +6,6 @@ import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
 import jgame.entities.common.EntityType;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
@@ -18,6 +17,8 @@ public class Player implements EntityType {
 
     private PlayerState playerState = PlayerState.idle;
 
+    private PlayerProperties playerProperties = new PlayerProperties();
+
     public Player(PlayerController controller, Vector vector, SizeDimensionsType size) {
         this.controller = controller;
         this.vector = vector;
@@ -27,7 +28,7 @@ public class Player implements EntityType {
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(currentColor);
+        g.setColor(isColliding ? Color.GREEN : Color.BLUE);
         g.fillRect(
                 (int) vector.getX(),
                 (int) vector.getY(),
@@ -49,36 +50,23 @@ public class Player implements EntityType {
 
     private CollidableType currentCollidable = null;
     private boolean isColliding = false;
-    private Color currentColor = Color.BLUE;
 
     public void checkForCollisions(CollidableType otherCollidable) {
-        boolean isCollidingWithCandidate = collidable.isColliding(otherCollidable);
+        if (otherCollidable == null) return;
 
-        System.out.println("Is colliding: " + isCollidingWithCandidate);
+        boolean isCollidingNow = collidable.isColliding(otherCollidable);
 
-        this.currentColor = isColliding ? Color.GREEN : Color.BLUE;
-
-        if (isCollidingWithCandidate && (currentCollidable == null)) {
+        if (isCollidingNow) {
             currentCollidable = otherCollidable;
             isColliding = true;
-            return;
-        } else if (!isCollidingWithCandidate && (currentCollidable == null)) {
-            return;
-        }
-
-        if (isCollidingWithCandidate) {
-            currentCollidable = otherCollidable;
-            isColliding = true;
-        }
-
-        if (collidable.isColliding(currentCollidable)) {
-            isColliding = true;
-        }
-
-        if (!isCollidingWithCandidate && !collidable.isColliding(currentCollidable)) {
+        } else if (currentCollidable != null && !collidable.isColliding(currentCollidable)) {
             currentCollidable = null;
             isColliding = false;
         }
+    }
+
+    public PlayerProperties getPlayerProperties() {
+        return playerProperties;
     }
 
     public KeyListener getKeyListener() {

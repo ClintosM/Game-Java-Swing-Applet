@@ -1,6 +1,5 @@
 package jgame.collision;
 
-import jgame.containers.SizeDimensions;
 import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
 

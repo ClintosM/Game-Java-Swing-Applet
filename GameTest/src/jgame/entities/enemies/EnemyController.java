@@ -3,8 +3,6 @@ package jgame.entities.enemies;
 import jgame.containers.Vector;
 import jgame.entities.common.EntityType;
 
-import java.awt.*;
-
 public class EnemyController {
     EntityType entity;
 
@@ -31,14 +29,12 @@ public class EnemyController {
     private void handleState(Enemy enemy) {
         switch (enemy.properties.getState()) {
             case idle -> {
-                enemy.properties.setColor(Color.YELLOW);
                 checkDistanceToEntity(enemy);
             }
             case wander -> {
                 // TODO: - Add wondering logic
             }
             case chase -> {
-                enemy.properties.setColor(Color.RED);
                 chaseEntity(enemy);
                 checkDistanceToEntity(enemy);
             }

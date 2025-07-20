@@ -7,7 +7,6 @@ import jgame.world.TileManager;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferStrategy;
 
 public class Game {
     public final boolean isRunning;

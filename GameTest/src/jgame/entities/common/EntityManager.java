@@ -2,14 +2,12 @@ package jgame.entities.common;
 
 import jgame.entities.enemies.EnemyController;
 import jgame.entities.player.Player;
-import jgame.entities.player.PlayerController;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class EntityManager {
     // MARK: - Player Stuff
-    private final PlayerController playerController = new PlayerController();
     private final EntityType player;
 
     // MARK: - Enemy Stuff

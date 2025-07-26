@@ -2,6 +2,7 @@ package jgame.entities.enemies;
 
 import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
+import jgame.entities.common.EntityPropertiesType;
 import jgame.entities.common.EntityType;
 
 import java.awt.*;
@@ -21,10 +22,10 @@ public class Enemy implements EntityType {
     }
 
     private void drawEnemy(Graphics2D g) {
-        int xPos = (int) getVector().getX();
-        int yPos = (int) getVector().getY();
-        int width = getSizeDimensions().getWidth();
-        int height = getSizeDimensions().getHeight();
+        int xPos = (int) properties.getVector().getX();
+        int yPos = (int) properties.getVector().getY();
+        int width = properties.getSize().getWidth();
+        int height = properties.getSize().getHeight();
 
         Color bodyColor = properties.getState() == EnemyState.idle ? Color.ORANGE : Color.RED;
         properties.setColor(bodyColor);
@@ -42,13 +43,8 @@ public class Enemy implements EntityType {
     }
 
     @Override
-    public Vector getVector() {
-        return properties.getVector();
-    }
-
-    @Override
-    public SizeDimensionsType getSizeDimensions() {
-        return properties.getSize();
+    public EntityPropertiesType getProperties() {
+        return properties;
     }
 
     @Override

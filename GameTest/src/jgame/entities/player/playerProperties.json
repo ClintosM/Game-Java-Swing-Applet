@@ -1,0 +1,8 @@
+{
+  "channel": "PLAYER_CHANNEL",
+  "size": {
+    "width": "ENTITY_SIZE",
+    "height": "ENTITY_SIZE"
+  },
+  "color": "#0000FF"
+}

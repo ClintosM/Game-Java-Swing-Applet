@@ -17,13 +17,12 @@ import jgame.world.TileManager;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MapsManager {
     private final ArrayList<MapData> mapsData;
     private final int[] mapPixelData;
 
-    private EntityType player = null;
+    private Player player = null;
     private final ArrayList<TileType> tiles = new ArrayList<TileType>();
     private final ArrayList<EntityType> enemies = new ArrayList<EntityType>();
     private final EnemyController enemyController = new EnemyController();
@@ -62,7 +61,6 @@ public class MapsManager {
         int width = mapData.getMapWidth();
         int height = mapData.getMapHeight();
         int[] tileAndEntityPlacements = mapData.getPixelsData();
-        System.out.println(Arrays.toString(tileAndEntityPlacements));
 
         int currentRow = 0;
         int currentColumn = -1;
@@ -103,11 +101,12 @@ public class MapsManager {
 
     private void checkPixelIndexForPlayer(int index, int xPos, int yPos) {
         if (mapPixelData[index] == MapDataPresets.PLAYER_CHANNEL) {
-            PlayerController pc = new PlayerController();
             Vector vector = new Vector(xPos, yPos);
             SizeDimensions sd = new SizeDimensions(MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE, MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE);
-            player = new Player(pc, vector, sd);
+            player = new Player(vector, sd);
+            PlayerController pc = new PlayerController(player);
             enemyController.setEntity(player);
+            System.out.println("Hit here");
         }
     }
 

@@ -22,8 +22,8 @@ public class EnemyController {
     }
 
     private float getDistanceFromEntity(Enemy enemy) {
-        Vector targetVector = entity.getVector();
-        return enemy.getVector().absoluteDistance(targetVector);
+        Vector targetVector = entity.getProperties().getVector();
+        return enemy.getProperties().getVector().absoluteDistance(targetVector);
     }
 
     private void handleState(Enemy enemy) {
@@ -44,9 +44,11 @@ public class EnemyController {
     private void chaseEntity(Enemy enemy) {
         if (enemy.properties.getState() != EnemyState.chase) return;
 
-        Vector targetVector = entity.getVector();
-        float dx = enemy.getVector().getNormalisedX(targetVector) * enemy.properties.getSpeed();
-        float dy = enemy.getVector().getNormalisedY(targetVector) * enemy.properties.getSpeed();
+        Vector targetVector = entity.getProperties().getVector();
+        float dx = enemy.properties.getVector().getNormalisedX(targetVector)
+                 * enemy.properties.getCurrentSpd();
+        float dy = enemy.properties.getVector().getNormalisedY(targetVector)
+                 * enemy.properties.getCurrentSpd();
         enemy.moveTo(dx, dy);
     }
 

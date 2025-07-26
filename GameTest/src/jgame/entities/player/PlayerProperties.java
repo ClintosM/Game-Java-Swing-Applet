@@ -1,37 +1,35 @@
 package jgame.entities.player;
 
-public class PlayerProperties {
+import jgame.containers.SizeDimensionsType;
+import jgame.containers.Vector;
+import jgame.entities.common.EntityPropertiesType;
+
+public class PlayerProperties implements EntityPropertiesType {
+    private final Vector vector;
+    private final SizeDimensionsType size;
+
     private final float maxSpd = 4;
-    private float currentSpd;
+    private final float currentSpd;
 
-    private final float accel = 1;
-    private final float deccel = 1;
-
-    public PlayerProperties() {
-        this.currentSpd = 0.1f;
+    public PlayerProperties(Vector vector, SizeDimensionsType size) {
+        this.currentSpd = maxSpd;
+        this.vector = vector;
+        this.size = size;
     }
 
-    protected float getCurrentSpd() {
+    public float getCurrentSpd() {
         return currentSpd;
     }
 
-    protected void increaseCurrentSpd(float amountIncrease) {
-        if (currentSpd < maxSpd) {
-            currentSpd += amountIncrease;
-        }
+    public Vector getVector() {
+        return vector;
     }
 
-    protected void decreaseCurrentSpd(float amountDecrease) {
-        if (currentSpd > 0) {
-            currentSpd -= amountDecrease;
-        }
-
-        if (currentSpd < 0) {
-            currentSpd = 0;
-        }
+    public SizeDimensionsType getSize() {
+        return size;
     }
 
-    protected float getMaxSpd() {
+    public float getMaxSpd() {
         return currentSpd;
     }
 }

@@ -12,9 +12,7 @@ import java.awt.*;
 // - Can be rendered
 
 public interface EntityType {
-    public Vector getVector();
-
-    public SizeDimensionsType getSizeDimensions();
+    public EntityPropertiesType getProperties();
 
     public void update();
 

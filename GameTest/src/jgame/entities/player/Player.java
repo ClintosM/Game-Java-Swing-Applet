@@ -4,49 +4,40 @@ import jgame.collision.Collidable;
 import jgame.collision.CollidableType;
 import jgame.containers.SizeDimensionsType;
 import jgame.containers.Vector;
+import jgame.entities.common.EntityPropertiesType;
 import jgame.entities.common.EntityType;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
 
 public class Player implements EntityType {
-    private final Vector vector;
-    private final SizeDimensionsType size;
-    private final PlayerController controller;
+    private final PlayerController playerController;
+    private final PlayerProperties playerProperties;
     private final CollidableType collidable;
 
-    private PlayerState playerState = PlayerState.idle;
-
-    private PlayerProperties playerProperties = new PlayerProperties();
-
-    public Player(PlayerController controller, Vector vector, SizeDimensionsType size) {
-        this.controller = controller;
-        this.vector = vector;
-        this.size = size;
+    public Player(Vector vector,
+                  SizeDimensionsType size) {
+        this.playerController = new PlayerController(this);
         this.collidable = new Collidable(vector, size);
+        this.playerProperties = new PlayerProperties(vector, size);
     }
 
+    // TODO: - Create draw manager class for player
     @Override
     public void render(Graphics2D g) {
         g.setColor(isColliding ? Color.GREEN : Color.BLUE);
         g.fillRect(
-                (int) vector.getX(),
-                (int) vector.getY(),
-                size.getWidth(),
-                size.getHeight()
+                (int) playerProperties.getVector().getX(),
+                (int) playerProperties.getVector().getY(),
+                playerProperties.getSize().getWidth(),
+                playerProperties.getSize().getHeight()
         );
     }
 
     @Override
     public void update() {
-        controller.update(this);
+        playerController.update();
     }
-
-    public void setPlayerState(PlayerState playerState) {
-        this.playerState = playerState;
-    }
-
-    // MARK: - Getters
 
     private CollidableType currentCollidable = null;
     private boolean isColliding = false;
@@ -65,24 +56,26 @@ public class Player implements EntityType {
         }
     }
 
+    // MARK: - Getters
+
     public PlayerProperties getPlayerProperties() {
         return playerProperties;
     }
 
     public KeyListener getKeyListener() {
-        return (KeyListener) controller;
+        return (KeyListener) playerController.getKeyListener();
     }
 
     public Vector getVector() {
-        return vector;
+        return playerProperties.getVector();
     }
 
     public SizeDimensionsType getSizeDimensions() {
-        return size;
+        return playerProperties.getSize();
     }
 
-    public PlayerState getPlayerState() {
-        return playerState;
+    public EntityPropertiesType getProperties() {
+        return playerProperties;
     }
 }
 

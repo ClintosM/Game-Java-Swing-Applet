@@ -2,127 +2,93 @@ package jgame.world.maps;
 
 import jgame.collision.TileType;
 import jgame.collision.Wall;
+import jgame.containers.Position;
 import jgame.containers.SizeDimensions;
-import jgame.containers.Vector;
-import jgame.entities.common.EntityManager;
+import jgame.containers.SizeDimensionsType;
 import jgame.entities.common.EntityType;
 import jgame.entities.enemies.Enemy;
-import jgame.entities.enemies.EnemyController;
-import jgame.entities.enemies.EnemyProperties;
-import jgame.entities.enemies.EnemyState;
 import jgame.entities.player.Player;
-import jgame.entities.player.PlayerController;
-import jgame.world.TileManager;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsManager {
-    private final ArrayList<MapData> mapsData;
-    private final int[] mapPixelData;
+    private final List<MapData> mapsData;
 
-    private Player player = null;
-    private final ArrayList<TileType> tiles = new ArrayList<TileType>();
-    private final ArrayList<EntityType> enemies = new ArrayList<EntityType>();
-    private final EnemyController enemyController = new EnemyController();
-
-    private EntityManager entityManager;
-    private TileManager tileManager;
-
-    // Temporary initialisation style. Will always launch first map in array (reason for hardcoded 0)
-    public MapsManager(ArrayList<String> mapResourceNames) {
-        this.mapsData = parseMapResourcesToData(mapResourceNames);
-        mapPixelData = mapsData.getFirst().getPixelsData();
-        determineMapLayout(mapsData.getFirst());
+    public MapsManager(List<String> mapNames) {
+        this.mapsData = parseMapResourcesToData(mapNames);
     }
 
-    private ArrayList<MapData> parseMapResourcesToData(ArrayList<String> mapResourceNames) {
-        ArrayList<MapData> mapsDataArray = new ArrayList<MapData>();
-        for (String mapResourceName : mapResourceNames) {
-            try {
-                mapsDataArray.add(new MapData(mapResourceName));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return mapsDataArray;
-    }
-
-    private ArrayList<MapData> getBufferedMapImages() {
-        if (mapsData == null) {
-            String preconditionCrashMessage = "Map Data not found";
-            throw new RuntimeException(preconditionCrashMessage);
-        }
-        return mapsData;
-    }
-
-    private void determineMapLayout(MapData mapData) {
+    public MapEntities buildEntitiesFromMap(String mapName) {
+        MapData mapData = getMapData(mapName);
+        int[] pixels = mapData.getPixelsData();
         int width = mapData.getMapWidth();
-        int height = mapData.getMapHeight();
-        int[] tileAndEntityPlacements = mapData.getPixelsData();
+
+        ArrayList<TileType> tiles = new ArrayList<>();
+        ArrayList<EntityType> enemies = new ArrayList<>();
+        EntityType player = null;
 
         int currentRow = 0;
         int currentColumn = -1;
 
-        for (int i = 0; i < tileAndEntityPlacements.length; i++) {
+        for (int i = 0; i < pixels.length; i++) {
             currentColumn++;
             if (i % width == 0 && i > 1) {
                 currentRow++;
                 currentColumn = 0;
             }
 
-            int xPos = currentColumn * MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE;
-            int yPos = currentRow * MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE;
+            int x = currentColumn * MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE;
+            int y = currentRow * MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE;
+            int pixel = pixels[i];
 
-            checkPixelIndexForPlayer(i, xPos, yPos);
-            checkPixelIndexForTile(i, xPos, yPos);
-            checkPixelIndexForEnemy(i, xPos, yPos);
+            switch (pixel) {
+                case MapDataPresets.PLAYER_CHANNEL -> {
+                    Position pos = new Position(x, y);
+                    SizeDimensions size = new SizeDimensions(MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE,
+                            MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE);
+                    player = new Player(pos, size);
+                }
+                case MapDataPresets.ENEMY_CHANNEL -> {
+                    Position pos = new Position(x, y);
+                    SizeDimensionsType size = new SizeDimensions(
+                            MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE,
+                            MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE
+                    );
+                    enemies.add(new Enemy(pos, size));
+                }
+                case MapDataPresets.TILE_CHANNEL -> {
+                    tiles.add(new Wall(x, y, MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE,
+                            MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE, Color.DARK_GRAY));
+                }
+            }
         }
-        entityManager = new EntityManager(enemies, player);
-        tileManager = new TileManager(tiles);
+
+        if (player == null) {
+            throw new RuntimeException("Map must contain a player.");
+        }
+
+        return new MapEntities(player, enemies, tiles);
     }
 
-    private void checkPixelIndexForEnemy(int index, int xPos, int yPos) {
-        if (mapPixelData[index] == MapDataPresets.ENEMY_CHANNEL) {
-            // TODO: - Add predefined fields for enemy properties. Different color channels for enemyProperty presets...
-            EnemyProperties enemyProperties = new EnemyProperties(3, 10, xPos, yPos, 64, EnemyState.idle, 250);
-            Enemy enemy = new Enemy(enemyController, enemyProperties);
-            enemies.add(enemy);
-        }
+    private MapData getMapData(String name) {
+        return mapsData.stream()
+                .filter(m -> m.getMapName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Map not found: " + name));
     }
 
-    private void checkPixelIndexForTile(int index, int xPos, int yPos) {
-        if (mapPixelData[index] == MapDataPresets.TILE_CHANNEL) {
-            Wall wall = new Wall(xPos, yPos, MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE, MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE, Color.DARK_GRAY);
-            tiles.add(wall);
+    private List<MapData> parseMapResourcesToData(List<String> mapNames) {
+        List<MapData> result = new ArrayList<>();
+        for (String name : mapNames) {
+            try {
+                result.add(new MapData(name));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-    }
-
-    private void checkPixelIndexForPlayer(int index, int xPos, int yPos) {
-        if (mapPixelData[index] == MapDataPresets.PLAYER_CHANNEL) {
-            Vector vector = new Vector(xPos, yPos);
-            SizeDimensions sd = new SizeDimensions(MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE, MapDataPresets.TILE_AND_ENTITY_PIXEL_SIZE);
-            player = new Player(vector, sd);
-            PlayerController pc = new PlayerController(player);
-            enemyController.setEntity(player);
-            System.out.println("Hit here");
-        }
-    }
-
-    // MARK: - Getters
-
-    public TileManager getTileManager() {
-        if (tileManager == null) {
-            throw new RuntimeException("Tile manager not found");
-        }
-        return tileManager;
-    }
-
-    public EntityManager getEntityManager() {
-        if (entityManager == null) {
-            throw new RuntimeException("Entity manager not found");
-        }
-        return entityManager;
+        return result;
     }
 }

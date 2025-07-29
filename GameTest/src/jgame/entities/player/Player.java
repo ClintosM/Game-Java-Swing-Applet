@@ -2,80 +2,98 @@ package jgame.entities.player;
 
 import jgame.collision.Collidable;
 import jgame.collision.CollidableType;
+import jgame.collision.TileType;
+import jgame.containers.Position;
 import jgame.containers.SizeDimensionsType;
-import jgame.containers.Vector;
-import jgame.entities.common.EntityPropertiesType;
+import jgame.core.EntityRenderable;
+import jgame.entities.common.EntityDrawManagerType;
+import jgame.entities.common.EntityModelType;
+import jgame.entities.common.EntityStateType;
 import jgame.entities.common.EntityType;
 
 import java.awt.*;
-import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
-public class Player implements EntityType {
-    private final PlayerController playerController;
-    private final PlayerProperties playerProperties;
-    private final CollidableType collidable;
+public class Player implements EntityType, EntityRenderable {
+    private final EntityModelType model;
+    private final EntityStateType state;
+    private final EntityDrawManagerType drawManager;
+    private final PlayerCollisionManager collisionManager;
 
-    public Player(Vector vector,
+    private final float MOVEMENT_SPEED = 4.0f;
+
+    public Player(Position position,
                   SizeDimensionsType size) {
-        this.playerController = new PlayerController(this);
-        this.collidable = new Collidable(vector, size);
-        this.playerProperties = new PlayerProperties(vector, size);
+        this.model = new PlayerModel(size, MOVEMENT_SPEED);
+        this.state = new PlayerState(position);
+        this.drawManager = new PlayerDrawManager();
+
+        CollidableType collidable = new Collidable(position, size);
+        this.collisionManager = new PlayerCollisionManager(collidable);
     }
 
-    // TODO: - Create draw manager class for player
-    @Override
     public void render(Graphics2D g) {
-        g.setColor(isColliding ? Color.GREEN : Color.BLUE);
-        g.fillRect(
-                (int) playerProperties.getVector().getX(),
-                (int) playerProperties.getVector().getY(),
-                playerProperties.getSize().getWidth(),
-                playerProperties.getSize().getHeight()
+        Color color = collisionManager.checkIsColliding() ? Color.GREEN : Color.BLUE;
+        drawManager.render(
+                g,
+                state.getPosition(),
+                model.getSize(),
+                color
         );
     }
 
-    @Override
-    public void update() {
-        playerController.update();
-    }
-
-    private CollidableType currentCollidable = null;
-    private boolean isColliding = false;
-
-    public void checkForCollisions(CollidableType otherCollidable) {
-        if (otherCollidable == null) return;
-
-        boolean isCollidingNow = collidable.isColliding(otherCollidable);
-
-        if (isCollidingNow) {
-            currentCollidable = otherCollidable;
-            isColliding = true;
-        } else if (currentCollidable != null && !collidable.isColliding(currentCollidable)) {
-            currentCollidable = null;
-            isColliding = false;
+    public void checkCollisionState(ArrayList<TileType> tiles) {
+        for (TileType tile : tiles) {
+            collisionManager.checkForCollisions(tile.getCollidable());
         }
     }
 
     // MARK: - Getters
 
-    public PlayerProperties getPlayerProperties() {
-        return playerProperties;
+    public boolean isColliding() {
+        return collisionManager.checkIsColliding();
     }
 
-    public KeyListener getKeyListener() {
-        return (KeyListener) playerController.getKeyListener();
+    public float getMovementSpeed() {
+        return model.getMovementSpeed();
     }
 
-    public Vector getVector() {
-        return playerProperties.getVector();
+    public SizeDimensionsType getSize() {
+        return model.getSize();
     }
 
-    public SizeDimensionsType getSizeDimensions() {
-        return playerProperties.getSize();
+    public float getHorizontalSpeed() {
+        return state.getHorizontalSpeed();
     }
 
-    public EntityPropertiesType getProperties() {
-        return playerProperties;
+    public float getVerticalSpeed() {
+        return state.getVerticalSpeed();
+    }
+
+    public Position getPosition() {
+        return state.getPosition();
+    }
+
+    public float getX() {
+        return state.getX();
+    }
+
+    public float getY() {
+        return state.getY();
+    }
+
+    // MARK: - Operations
+
+    public void setHorizontalSpeed(float newHspd) {
+        state.setHorizontalSpeed(newHspd);
+    }
+
+    public void setVerticalSpeed(float newVspd) {
+        state.setVerticalSpeed(newVspd);
+    }
+
+    public void moveBy(float dx, float dy) {
+        state.moveBy(dx, dy);
     }
 }
 

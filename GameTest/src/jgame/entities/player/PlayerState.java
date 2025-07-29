@@ -1,24 +1,22 @@
-package jgame.entities.enemies;
+package jgame.entities.player;
 
 import jgame.containers.Position;
 import jgame.entities.common.EntityStateType;
 
-public class EnemyState implements EntityStateType {
-    private Position position;
-    private int health;
+public class PlayerState implements EntityStateType {
+    private final Position position;
     private float hspd;
     private float vspd;
+    private int health;
 
-    public EnemyState(Position initialPosition) {
+    public PlayerState(Position initialPosition) {
         this.position = initialPosition;
         this.hspd = 0;
         this.vspd = 0;
         this.health = 100;
     }
 
-    public int getCurrentHealth() {
-        return health;
-    }
+    // MARK: - Getters
 
     public float getHorizontalSpeed() {
         return hspd;
@@ -40,6 +38,12 @@ public class EnemyState implements EntityStateType {
         return position.y();
     }
 
+    public int getCurrentHealth() {
+        return health;
+    }
+
+    // MARK: - Operators
+
     public void setHorizontalSpeed(float newHspd) {
         this.hspd = newHspd;
     }
@@ -51,6 +55,6 @@ public class EnemyState implements EntityStateType {
     public void moveBy(float dx, float dy) {
         float newX = position.x() + dx;
         float newY = position.y() + dy;
-        this.position = new Position(newX, newY);
+        position.set(newX, newY);
     }
 }

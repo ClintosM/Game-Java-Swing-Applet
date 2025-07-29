@@ -1,54 +1,92 @@
 package jgame.entities.enemies;
 
+import jgame.collision.TileType;
+import jgame.containers.Position;
 import jgame.containers.SizeDimensionsType;
-import jgame.containers.Vector;
-import jgame.entities.common.EntityPropertiesType;
+import jgame.core.EntityRenderable;
+import jgame.entities.common.EntityDrawManagerType;
+import jgame.entities.common.EntityModelType;
+import jgame.entities.common.EntityStateType;
 import jgame.entities.common.EntityType;
 
 import java.awt.*;
+import java.util.ArrayList;
 
-public class Enemy implements EntityType {
-    private final EnemyController controller;
-    final EnemyProperties properties;
+public class Enemy implements EntityType, EntityRenderable {
+    private final EntityModelType model;
+    private final EntityStateType state;
+    private final EntityDrawManagerType drawManager;
 
-    public Enemy(EnemyController controller, EnemyProperties properties) {
-        this.controller = controller;
-        this.properties = properties;
+    private final float MOVEMENT_SPEED = 2.0f;
+    private final float SIGHT_RADIUS = 256.0f;
+
+    private EnemyStatus status = EnemyStatus.idle;
+
+    public Enemy(Position position,
+                 SizeDimensionsType size) {
+        this.model = new EnemyModel(size, MOVEMENT_SPEED);
+        this.state = new EnemyState(position);
+        this.drawManager = new EnemyDrawManager();
     }
 
-    @Override
     public void render(Graphics2D g) {
-        drawEnemy(g);
+        drawManager.render(g, state.getPosition(), model.getSize(), Color.RED);
     }
 
-    private void drawEnemy(Graphics2D g) {
-        int xPos = (int) properties.getVector().getX();
-        int yPos = (int) properties.getVector().getY();
-        int width = properties.getSize().getWidth();
-        int height = properties.getSize().getHeight();
+    // MARK: - Getters
 
-        Color bodyColor = properties.getState() == EnemyState.idle ? Color.ORANGE : Color.RED;
-        properties.setColor(bodyColor);
-
-        g.setColor(properties.getColor());
-        g.fillRect(xPos, yPos, width, height);
+    public boolean isColliding() {
+        return false;
     }
 
-    // MARK: - Public Methods
+    public SizeDimensionsType getSize() {
+        return model.getSize();
+    }
 
-    public void moveTo(float dx, float dy) {
-        float newX = properties.getVector().getX() + dx;
-        float newY = properties.getVector().getY() + dy;
-        properties.getVector().setVector(newX, newY);
+    public float getMovementSpeed() {
+        return model.getMovementSpeed();
+    }
+
+    public float getHorizontalSpeed() {
+        return state.getHorizontalSpeed();
+    }
+
+    public float getVerticalSpeed() {
+        return state.getHorizontalSpeed();
+    }
+
+    public void setHorizontalSpeed(float newSpd) {
+        state.setVerticalSpeed(newSpd);
+    }
+
+    public void setVerticalSpeed(float newSpd) {
+        state.setHorizontalSpeed(newSpd);
+    }
+
+    public Position getPosition() {
+        return state.getPosition();
+    }
+
+    public float getSightRadius() {
+        return SIGHT_RADIUS;
+    }
+
+    public EnemyStatus getStatus() {
+        return status;
+    }
+
+    // MARK: - Operations
+
+    public void moveBy(float dx, float dy) {
+        state.moveBy(dx, dy);
     }
 
     @Override
-    public EntityPropertiesType getProperties() {
-        return properties;
+    public void checkCollisionState(ArrayList<TileType> tiles) {
+        // TODO: - Add collision checks for enemy
     }
 
-    @Override
-    public void update() {
-        controller.update(this);
+    public void setStatus(EnemyStatus newStatus) {
+        status = newStatus;
     }
 }

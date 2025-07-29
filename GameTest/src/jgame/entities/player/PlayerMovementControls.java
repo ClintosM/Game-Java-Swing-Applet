@@ -10,6 +10,8 @@ public abstract class PlayerMovementControls {
     public static int MOVE_LEFT = KeyEvent.VK_A;
     public static int MOVE_RIGHT = KeyEvent.VK_D;
 
+    private PlayerMovementControls() { }
+
     public static Set<Integer> movementKeyBinds = new HashSet<>();
 
     static {

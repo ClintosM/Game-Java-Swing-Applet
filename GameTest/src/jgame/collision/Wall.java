@@ -1,11 +1,13 @@
 package jgame.collision;
 
+import jgame.containers.Position;
 import jgame.containers.SizeDimensions;
-import jgame.containers.Vector;
+import jgame.containers.SizeDimensionsType;
+import jgame.core.TileRenderable;
 
 import java.awt.*;
 
-public class Wall implements TileType {
+public class Wall implements TileType, TileRenderable {
     private int x;
     private int y;
     private int width;
@@ -20,10 +22,12 @@ public class Wall implements TileType {
         this.width = width;
         this.height = height;
         this.color = color;
-        this.collidable = new Collidable(new Vector(x, y), new SizeDimensions(width, height));
+
+        Position pos = new Position(x, y);
+        SizeDimensionsType size = new SizeDimensions(width, height);
+        this.collidable = new Collidable(pos, size);
     }
 
-    @Override
     public void render(Graphics2D g) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
@@ -39,24 +43,20 @@ public class Wall implements TileType {
         return this.y;
     }
 
-    @Override
     public CollidableType getCollidable() {
         return collidable;
     }
 
     // MARK: - Setters
-    @Override
     public void setTileColor(Color color) {
         this.color = color;
     }
 
-    @Override
     public void setTileLocation(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    @Override
     public void setTileSize(int width, int height) {
         this.width = width;
         this.height = height;

@@ -1,20 +1,24 @@
 package jgame.entities.common;
 
+import jgame.collision.TileType;
+import jgame.containers.Position;
 import jgame.containers.SizeDimensionsType;
-import jgame.containers.Vector;
 
-import java.awt.*;
-
-// The requirement of something to be considered an Entity in this project must satisfy the following requirements:
-// - Has vector-defined positioning in 2D space
-// - Has an explicitly defined size
-// - Can have its properties updated as part of the game-loop
-// - Can be rendered
+import java.util.ArrayList;
 
 public interface EntityType {
-    public EntityPropertiesType getProperties();
+    public SizeDimensionsType getSize();
 
-    public void update();
+    public Position getPosition();
+    public float getMovementSpeed();
+    public float getHorizontalSpeed();
+    public float getVerticalSpeed();
 
-    public void render(Graphics2D g);
+    public void setHorizontalSpeed(float newSpd);
+    public void setVerticalSpeed(float newSpd);
+
+    public void moveBy(float dx, float dy);
+
+    public void checkCollisionState(ArrayList<TileType> tiles);
+    public boolean isColliding();
 }

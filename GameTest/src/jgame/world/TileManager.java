@@ -16,10 +16,4 @@ public class TileManager {
     public ArrayList<TileType> getTiles() {
         return tiles;
     }
-
-    public void render(Graphics2D g) {
-        for (TileType tile : tiles) {
-            tile.render(g);
-        }
-    }
 }

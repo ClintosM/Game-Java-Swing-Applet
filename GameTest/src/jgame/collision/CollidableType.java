@@ -1,13 +1,13 @@
 package jgame.collision;
 
+import jgame.containers.Position;
 import jgame.containers.SizeDimensionsType;
-import jgame.containers.Vector;
 
 public interface CollidableType {
 
     boolean isColliding(CollidableType otherCollidable);
 
-    Vector getVector();
+    Position getPosition();
 
     SizeDimensionsType getSize();
 }

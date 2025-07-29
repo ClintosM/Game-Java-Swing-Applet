@@ -1,44 +1,27 @@
 package jgame.entities.common;
 
-import jgame.entities.enemies.EnemyController;
-import jgame.entities.player.Player;
-
-import java.awt.*;
 import java.util.ArrayList;
 
 public class EntityManager {
-    // MARK: - Player Stuff
-    private final EntityType player;
-
-    // MARK: - Enemy Stuff
     private final ArrayList<EntityType> enemies;
-    private EnemyController enemyController;
+    private final EntityType player;
 
     public EntityManager(ArrayList<EntityType> enemies, EntityType player) {
         this.enemies = enemies;
         this.player = player;
     }
 
+    public ArrayList<EntityType> getAllEntities() {
+        ArrayList<EntityType> allEntities = new ArrayList<>(getEnemies());
+        allEntities.add(player);
+        return allEntities;
+    }
+
     public ArrayList<EntityType> getEnemies() {
         return enemies;
     }
 
-    public Player getPlayer() {
-        return (Player) player;
-    }
-
-    public void setEnemyController(EnemyController enemyController) {
-        this.enemyController = enemyController;
-    }
-
-    public EnemyController getEnemyController() {
-        return enemyController;
-    }
-
-    public void render(Graphics2D g) {
-        player.render(g);
-        for (EntityType enemy : enemies) {
-            enemy.render(g);
-        }
+    public EntityType getPlayer() {
+        return player;
     }
 }

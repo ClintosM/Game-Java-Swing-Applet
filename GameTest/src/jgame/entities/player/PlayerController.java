@@ -1,24 +1,23 @@
 package jgame.entities.player;
 
+import jgame.core.GameContext;
+import jgame.entities.common.EntityControllerType;
 import jgame.entities.common.EntityType;
 
 import java.awt.event.KeyListener;
 
-public class PlayerController {
-    private Player player;
-    private PlayerMovementController movementController;
+public class PlayerController implements EntityControllerType {
+    private final EntityType player;
+    private final PlayerMovementController movementController;
 
-    public PlayerController(Player player) {
+    public PlayerController(EntityType player, PlayerInputHandler inputHandler) {
         this.player = player;
-        this.movementController = new PlayerMovementController();
+        this.movementController = new PlayerMovementController(player, inputHandler);
     }
 
-    protected void update() {
-        handleStates();
-    }
-
-    private void handleStates() {
+    public void update(GameContext gameContext) {
         movementController.updatePosition(player);
+        player.checkCollisionState(gameContext.tiles);
     }
 
     public KeyListener getKeyListener() {

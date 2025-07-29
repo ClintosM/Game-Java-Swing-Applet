@@ -1,6 +1,8 @@
 package jgame.entities.enemies;
 
-import jgame.containers.Vector;
+import jgame.containers.Position;
+import jgame.containers.VectorMath;
+import jgame.core.GameContext;
 import jgame.entities.common.EntityType;
 
 public class EnemyController {
@@ -17,17 +19,17 @@ public class EnemyController {
         return entity;
     }
 
-    protected void update(Enemy enemy) {
+    public void update(Enemy enemy, GameContext gameContext) {
         handleState(enemy);
     }
 
-    private float getDistanceFromEntity(Enemy enemy) {
-        Vector targetVector = entity.getProperties().getVector();
-        return enemy.getProperties().getVector().absoluteDistance(targetVector);
+    private float getDistanceFromEntity(EntityType enemy) {
+        Position targetVector = entity.getPosition();
+        return VectorMath.absoluteDistance(enemy.getPosition(), entity.getPosition());
     }
 
     private void handleState(Enemy enemy) {
-        switch (enemy.properties.getState()) {
+        switch (enemy.getStatus()) {
             case idle -> {
                 checkDistanceToEntity(enemy);
             }
@@ -41,26 +43,26 @@ public class EnemyController {
         }
     }
 
-    private void chaseEntity(Enemy enemy) {
-        if (enemy.properties.getState() != EnemyState.chase) return;
+    private void chaseEntity(EntityType enemy) {
+        //if (enemy.properties.getState() != EnemyState.chase) return;
 
-        Vector targetVector = entity.getProperties().getVector();
-        float dx = enemy.properties.getVector().getNormalisedX(targetVector)
-                 * enemy.properties.getCurrentSpd();
-        float dy = enemy.properties.getVector().getNormalisedY(targetVector)
-                 * enemy.properties.getCurrentSpd();
-        enemy.moveTo(dx, dy);
+        Position targetPos = entity.getPosition();
+        float dx = VectorMath.getNormalisedX(enemy.getPosition(), targetPos)
+                 * enemy.getMovementSpeed();
+        float dy = VectorMath.getNormalisedY(enemy.getPosition(), targetPos)
+                * enemy.getMovementSpeed();
+        enemy.moveBy(dx, dy);
     }
 
     private void checkDistanceToEntity(Enemy enemy) {
         float distance = getDistanceFromEntity(enemy);
 
-        if (distance < enemy.properties.getSightRadius()) {
-            enemy.properties.state = EnemyState.chase;
+        if (distance < enemy.getSightRadius()) {
+            enemy.setStatus(EnemyStatus.chase);
         }
 
-        if (distance >= enemy.properties.getSightRadius() * 1.25) {
-            enemy.properties.state = EnemyState.idle;
+        if (distance >= enemy.getSightRadius() * 1.25) {
+            enemy.setStatus(EnemyStatus.idle);
         }
     }
 }

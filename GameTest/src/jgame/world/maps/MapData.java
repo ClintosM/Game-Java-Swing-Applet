@@ -53,4 +53,8 @@ public class MapData {
     public int getMapHeight() {
         return mapHeight;
     }
+
+    public String getMapName() {
+        return resourceName;
+    }
 }

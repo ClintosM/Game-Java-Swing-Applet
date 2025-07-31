@@ -1,4 +1,4 @@
-package jgame.core;
+package jgame.core.game;
 
 import java.awt.*;
 

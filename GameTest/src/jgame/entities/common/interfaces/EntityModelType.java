@@ -1,6 +1,5 @@
-package jgame.entities.common;
+package jgame.entities.common.interfaces;
 
-import jgame.containers.Position;
 import jgame.containers.SizeDimensionsType;
 
 public interface EntityModelType {

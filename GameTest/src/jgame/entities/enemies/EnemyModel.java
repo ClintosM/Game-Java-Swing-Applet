@@ -1,7 +1,7 @@
 package jgame.entities.enemies;
 
 import jgame.containers.SizeDimensionsType;
-import jgame.entities.common.EntityModelType;
+import jgame.entities.common.interfaces.EntityModelType;
 
 public class EnemyModel implements EntityModelType {
     private final SizeDimensionsType size;

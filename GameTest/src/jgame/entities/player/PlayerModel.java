@@ -1,7 +1,7 @@
 package jgame.entities.player;
 
 import jgame.containers.SizeDimensionsType;
-import jgame.entities.common.EntityModelType;
+import jgame.entities.common.interfaces.EntityModelType;
 
 public class PlayerModel implements EntityModelType {
     private final SizeDimensionsType size;

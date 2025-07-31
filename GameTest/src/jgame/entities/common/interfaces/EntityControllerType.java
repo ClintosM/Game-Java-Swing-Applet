@@ -1,6 +1,6 @@
-package jgame.entities.common;
+package jgame.entities.common.interfaces;
 
-import jgame.core.GameContext;
+import jgame.core.game.GameContext;
 
 public interface EntityControllerType {
     public void update(GameContext gameContext);

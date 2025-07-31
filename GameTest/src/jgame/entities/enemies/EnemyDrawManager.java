@@ -1,6 +1,6 @@
 package jgame.entities.enemies;
 
-import jgame.entities.common.EntityDrawManagerType;
+import jgame.entities.common.interfaces.EntityDrawManagerType;
 
 public class EnemyDrawManager implements EntityDrawManagerType {
 

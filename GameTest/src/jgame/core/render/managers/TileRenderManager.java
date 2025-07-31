@@ -1,4 +1,6 @@
-package jgame.core;
+package jgame.core.render.managers;
+
+import jgame.core.render.interfaces.TileRenderable;
 
 import java.awt.*;
 import java.util.ArrayList;

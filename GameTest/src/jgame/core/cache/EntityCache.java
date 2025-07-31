@@ -1,12 +1,14 @@
-package jgame.entities.common;
+package jgame.core.cache;
+
+import jgame.entities.common.interfaces.EntityType;
 
 import java.util.ArrayList;
 
-public class EntityManager {
+public class EntityCache {
     private final ArrayList<EntityType> enemies;
     private final EntityType player;
 
-    public EntityManager(ArrayList<EntityType> enemies, EntityType player) {
+    public EntityCache(ArrayList<EntityType> enemies, EntityType player) {
         this.enemies = enemies;
         this.player = player;
     }

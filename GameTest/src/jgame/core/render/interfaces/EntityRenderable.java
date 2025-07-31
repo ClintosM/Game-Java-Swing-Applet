@@ -1,4 +1,4 @@
-package jgame.core;
+package jgame.core.render.interfaces;
 
 import java.awt.*;
 

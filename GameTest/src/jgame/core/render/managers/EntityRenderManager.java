@@ -1,6 +1,6 @@
-package jgame.entities.common;
+package jgame.core.render.managers;
 
-import jgame.core.EntityRenderable;
+import jgame.core.render.interfaces.EntityRenderable;
 
 import java.awt.*;
 import java.util.ArrayList;

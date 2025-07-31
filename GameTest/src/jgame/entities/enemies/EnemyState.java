@@ -1,56 +1,11 @@
 package jgame.entities.enemies;
 
 import jgame.containers.Position;
-import jgame.entities.common.EntityStateType;
+import jgame.containers.SizeDimensionsType;
+import jgame.entities.common.EntityState;
 
-public class EnemyState implements EntityStateType {
-    private Position position;
-    private int health;
-    private float hspd;
-    private float vspd;
-
-    public EnemyState(Position initialPosition) {
-        this.position = initialPosition;
-        this.hspd = 0;
-        this.vspd = 0;
-        this.health = 100;
-    }
-
-    public int getCurrentHealth() {
-        return health;
-    }
-
-    public float getHorizontalSpeed() {
-        return hspd;
-    }
-
-    public float getVerticalSpeed() {
-        return vspd;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public float getX() {
-        return position.x();
-    }
-
-    public float getY() {
-        return position.y();
-    }
-
-    public void setHorizontalSpeed(float newHspd) {
-        this.hspd = newHspd;
-    }
-
-    public void setVerticalSpeed(float newVspd) {
-        this.vspd = newVspd;
-    }
-
-    public void moveBy(float dx, float dy) {
-        float newX = position.x() + dx;
-        float newY = position.y() + dy;
-        this.position = new Position(newX, newY);
+public final class EnemyState extends EntityState {
+    public EnemyState(Position initialPosition, SizeDimensionsType size) {
+        super(initialPosition, size);
     }
 }

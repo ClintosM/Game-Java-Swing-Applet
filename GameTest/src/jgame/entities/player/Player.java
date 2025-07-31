@@ -1,99 +1,65 @@
 package jgame.entities.player;
 
-import jgame.collision.Collidable;
 import jgame.collision.CollidableType;
-import jgame.collision.TileType;
 import jgame.containers.Position;
 import jgame.containers.SizeDimensionsType;
-import jgame.core.EntityRenderable;
-import jgame.entities.common.EntityDrawManagerType;
-import jgame.entities.common.EntityModelType;
-import jgame.entities.common.EntityStateType;
-import jgame.entities.common.EntityType;
+import jgame.core.render.interfaces.EntityRenderable;
+import jgame.entities.common.interfaces.EntityDrawManagerType;
+import jgame.entities.common.interfaces.EntityModelType;
+import jgame.entities.common.interfaces.EntityStateType;
+import jgame.entities.common.interfaces.EntityType;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Player implements EntityType, EntityRenderable {
+public final class Player implements EntityType, EntityRenderable {
     private final EntityModelType model;
     private final EntityStateType state;
     private final EntityDrawManagerType drawManager;
-    private final PlayerCollisionManager collisionManager;
 
     private final float MOVEMENT_SPEED = 4.0f;
 
     public Player(Position position,
                   SizeDimensionsType size) {
         this.model = new PlayerModel(size, MOVEMENT_SPEED);
-        this.state = new PlayerState(position);
+        this.state = new PlayerState(position, size);
         this.drawManager = new PlayerDrawManager();
-
-        CollidableType collidable = new Collidable(position, size);
-        this.collisionManager = new PlayerCollisionManager(collidable);
     }
 
     public void render(Graphics2D g) {
-        Color color = collisionManager.checkIsColliding() ? Color.GREEN : Color.BLUE;
         drawManager.render(
                 g,
                 state.getPosition(),
                 model.getSize(),
-                color
+                Color.BLUE
         );
-    }
-
-    public void checkCollisionState(ArrayList<TileType> tiles) {
-        for (TileType tile : tiles) {
-            collisionManager.checkForCollisions(tile.getCollidable());
-        }
     }
 
     // MARK: - Getters
 
-    public boolean isColliding() {
-        return collisionManager.checkIsColliding();
-    }
+    public SizeDimensionsType getSize() { return model.getSize(); }
 
-    public float getMovementSpeed() {
-        return model.getMovementSpeed();
-    }
+    public float getMovementSpeed() { return model.getMovementSpeed(); }
 
-    public SizeDimensionsType getSize() {
-        return model.getSize();
-    }
+    public CollidableType getCollidable() { return state.getCollidable(); }
 
-    public float getHorizontalSpeed() {
-        return state.getHorizontalSpeed();
-    }
+    public float getXVelocity() { return state.getXVelocity(); }
 
-    public float getVerticalSpeed() {
-        return state.getVerticalSpeed();
-    }
+    public float getYVelocity() { return state.getYVelocity(); }
 
-    public Position getPosition() {
-        return state.getPosition();
-    }
+    public Position getPosition() { return state.getPosition(); }
 
-    public float getX() {
-        return state.getX();
-    }
+    public float getX() { return state.getX(); }
 
-    public float getY() {
-        return state.getY();
-    }
+    public float getY() { return state.getY(); }
 
     // MARK: - Operations
 
-    public void setHorizontalSpeed(float newHspd) {
-        state.setHorizontalSpeed(newHspd);
-    }
+    public void setXVelocity(float newVel) { state.setXVelocity(newVel); }
 
-    public void setVerticalSpeed(float newVspd) {
-        state.setVerticalSpeed(newVspd);
-    }
+    public void setYVelocity(float newVel) { state.setYVelocity(newVel); }
 
-    public void moveBy(float dx, float dy) {
-        state.moveBy(dx, dy);
-    }
+    public void moveBy(float dx, float dy) { state.moveBy(dx, dy); }
+
+    public void moveTo(float x, float y) { state.moveTo(x, y); }
 }
 

@@ -1,4 +1,7 @@
-package jgame.core;
+package jgame.core.render;
+
+import jgame.core.game.GameCanvas;
+import jgame.core.game.GameWorld;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

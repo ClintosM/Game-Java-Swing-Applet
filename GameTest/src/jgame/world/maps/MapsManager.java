@@ -5,7 +5,7 @@ import jgame.collision.Wall;
 import jgame.containers.Position;
 import jgame.containers.SizeDimensions;
 import jgame.containers.SizeDimensionsType;
-import jgame.entities.common.EntityType;
+import jgame.entities.common.interfaces.EntityType;
 import jgame.entities.enemies.Enemy;
 import jgame.entities.player.Player;
 
@@ -21,7 +21,7 @@ public class MapsManager {
         this.mapsData = parseMapResourcesToData(mapNames);
     }
 
-    public MapEntities buildEntitiesFromMap(String mapName) {
+    public MapObjects buildObjectsFromMap(String mapName) {
         MapData mapData = getMapData(mapName);
         int[] pixels = mapData.getPixelsData();
         int width = mapData.getMapWidth();
@@ -70,7 +70,7 @@ public class MapsManager {
             throw new RuntimeException("Map must contain a player.");
         }
 
-        return new MapEntities(player, enemies, tiles);
+        return new MapObjects(player, enemies, tiles);
     }
 
     private MapData getMapData(String name) {

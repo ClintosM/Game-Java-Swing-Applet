@@ -12,38 +12,33 @@ public class Collidable implements CollidableType {
         this.size = size;
     }
 
-    @Override
     public boolean isColliding(CollidableType otherCollidable) {
         return checkIfXPositionsMeet(otherCollidable) && checkIfYPositionsMeet(otherCollidable);
     }
 
-    // X Coordinate Calculations
+    // Horizontal Coordinate Calculations
     private boolean checkIfXPositionsMeet(CollidableType otherCollidable) {
-        int selfXLeading = (int) getPosition().x();
-        int selfXTrailing = (int) getPosition().x() + getSize().getWidth();
+        int selfLeft = (int) position.x();
+        int selfRight = selfLeft + size.getWidth();
 
-        int otherXLeading = (int) otherCollidable.getPosition().x();
-        int otherXTrailing = (int) otherCollidable.getPosition().x() + otherCollidable.getSize().getWidth();
+        int otherLeft = (int) otherCollidable.getPosition().x();
+        int otherRight = otherLeft + otherCollidable.getSize().getWidth();
 
-        return (selfXTrailing >= otherXLeading) && (otherXTrailing >= selfXLeading);
+        return (selfRight >= otherLeft) && (otherRight >= selfLeft);
     }
 
-    // Y Coordinate Calculations
+    // Vertical Coordinate Calculations
     private boolean checkIfYPositionsMeet(CollidableType otherCollidable) {
-        int selfYTop = (int) getPosition().y();
-        int selfYBottom = (int) getPosition().y() + getSize().getHeight();
+        int selfTop = (int) position.y();
+        int selfBottom = selfTop + size.getHeight();
 
-        int otherYTop = (int) otherCollidable.getPosition().y();
-        int otherYBottom = (int) otherCollidable.getPosition().y() + otherCollidable.getSize().getHeight();
+        int otherTop = (int) otherCollidable.getPosition().y();
+        int otherBottom = otherTop + otherCollidable.getSize().getHeight();
 
-        return (selfYBottom >= otherYTop) && (otherYBottom >= selfYTop);
+        return (selfBottom >= otherTop) && (otherBottom >= selfTop);
     }
 
-    public Position getPosition() {
-        return position;
-    }
+    public Position getPosition() { return position; }
 
-    public SizeDimensionsType getSize() {
-        return size;
-    }
+    public SizeDimensionsType getSize() { return size; }
 }

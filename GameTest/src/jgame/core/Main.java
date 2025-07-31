@@ -1,11 +1,16 @@
 package jgame.core;
 
-import jgame.entities.common.EntityType;
+import jgame.core.cache.EntityCache;
+import jgame.core.game.GameCanvas;
+import jgame.core.game.GameFrame;
+import jgame.core.game.GameWorld;
+import jgame.core.render.Render;
+import jgame.entities.common.interfaces.EntityType;
 import jgame.entities.enemies.EnemyController;
 import jgame.entities.player.PlayerController;
 import jgame.entities.player.PlayerInputHandler;
-import jgame.world.TileManager;
-import jgame.world.maps.MapEntities;
+import jgame.core.cache.TileCache;
+import jgame.world.maps.MapObjects;
 import jgame.world.maps.MapsManager;
 
 import java.util.List;
@@ -16,17 +21,19 @@ public class Main {
         GameCanvas canvas = new GameCanvas();
         GameFrame frame = new GameFrame(canvas);
 
-        MapEntities entities = createEntities();
-        EnemyController enemyController = setupEnemyController(entities.player());
-        PlayerController playerController = setupPlayerController(entities.player());
-        TileManager tileManager = new TileManager(entities.tiles());
+        MapObjects mapObjects = createMapObjects();
+
+        EnemyController enemyController = setupEnemyController(mapObjects.player());
+        PlayerController playerController = setupPlayerController(mapObjects.player());
+
+        TileCache tileCache = new TileCache(mapObjects.tiles());
+        EntityCache entityCache = new EntityCache(mapObjects.enemies(), mapObjects.player());
 
         GameWorld gameWorld = new GameWorld(
-                entities.player(),
-                entities.enemies(),
+                entityCache,
+                tileCache,
                 playerController,
-                enemyController,
-                tileManager
+                enemyController
         );
 
         canvas.addKeyListener(gameWorld.getKeyListener());
@@ -35,9 +42,9 @@ public class Main {
         new Thread(new Render(gameWorld, canvas)).start();
     }
 
-    private static MapEntities createEntities() {
-        MapsManager mapsManager = new MapsManager(List.of("map1"));
-        return mapsManager.buildEntitiesFromMap("map1");
+    private static MapObjects createMapObjects() {
+        MapsManager mapsManager = new MapsManager(List.of("map2"));
+        return mapsManager.buildObjectsFromMap("map2");
     }
 
     private static EnemyController setupEnemyController(EntityType playerTarget) {
@@ -48,7 +55,6 @@ public class Main {
 
     private static PlayerController setupPlayerController(EntityType player) {
         PlayerInputHandler inputHandler = new PlayerInputHandler();
-        PlayerController playerController = new PlayerController(player, inputHandler);
-        return playerController;
+        return new PlayerController(player, inputHandler);
     }
 }

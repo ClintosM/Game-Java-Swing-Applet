@@ -1,11 +1,11 @@
 package jgame.entities.enemies;
 
 import jgame.containers.Position;
-import jgame.containers.VectorMath;
-import jgame.core.GameContext;
-import jgame.entities.common.EntityType;
+import jgame.utils.VectorMath;
+import jgame.core.game.GameContext;
+import jgame.entities.common.interfaces.EntityType;
 
-public class EnemyController {
+public final class EnemyController {
     EntityType entity;
 
     public EnemyController() {

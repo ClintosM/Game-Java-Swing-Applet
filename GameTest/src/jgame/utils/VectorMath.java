@@ -1,4 +1,6 @@
-package jgame.containers;
+package jgame.utils;
+
+import jgame.containers.Position;
 
 public abstract class VectorMath {
     private VectorMath() { }

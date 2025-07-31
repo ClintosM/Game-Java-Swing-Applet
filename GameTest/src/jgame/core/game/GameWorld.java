@@ -1,13 +1,16 @@
-package jgame.core;
+package jgame.core.game;
 
 import jgame.collision.TileType;
-import jgame.entities.common.EntityManager;
-import jgame.entities.common.EntityRenderManager;
-import jgame.entities.common.EntityType;
+import jgame.core.render.interfaces.EntityRenderable;
+import jgame.core.render.managers.TileRenderManager;
+import jgame.core.render.interfaces.TileRenderable;
+import jgame.core.render.managers.EntityRenderManager;
+import jgame.entities.common.interfaces.EntityType;
 import jgame.entities.enemies.Enemy;
 import jgame.entities.enemies.EnemyController;
 import jgame.entities.player.PlayerController;
-import jgame.world.TileManager;
+import jgame.core.cache.EntityCache;
+import jgame.core.cache.TileCache;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -17,32 +20,31 @@ public class GameWorld {
     private final PlayerController playerController;
     private final EnemyController enemyController;
 
-    private final TileManager tileManager;
-    private final EntityManager entityManager;
+    private final TileCache tileCache;
+    private final EntityCache entityCache;
 
     private final EntityRenderManager entityRenderManager;
     private final TileRenderManager tileRenderManager;
 
     public GameWorld(
-            EntityType player,
-            ArrayList<EntityType> enemies,
+            EntityCache entityCache,
+            TileCache tileCache,
             PlayerController pc,
-            EnemyController ec,
-            TileManager tm
+            EnemyController ec
     ) {
+        this.entityCache = entityCache;
+        this.tileCache = tileCache;
         this.playerController = pc;
         this.enemyController = ec;
-        this.tileManager = tm;
-        this.entityManager = new EntityManager(enemies, player);
 
-        this.entityRenderManager = setupEntityRenderManager(entityManager);
-        this.tileRenderManager = setupTileRenderManager(tileManager);
+        this.entityRenderManager = setupEntityRenderManager(entityCache);
+        this.tileRenderManager = setupTileRenderManager(tileCache);
     }
 
-    private EntityRenderManager setupEntityRenderManager(EntityManager entityManager) {
+    private EntityRenderManager setupEntityRenderManager(EntityCache entityCache) {
         ArrayList<EntityRenderable> entityRenderables = new ArrayList<>();
 
-        for (EntityType entity : entityManager.getAllEntities()) {
+        for (EntityType entity : entityCache.getAllEntities()) {
             if (entity instanceof EntityRenderable renderable) {
                 entityRenderables.add(renderable);
             }
@@ -50,10 +52,10 @@ public class GameWorld {
         return new EntityRenderManager(entityRenderables);
     }
 
-    private TileRenderManager setupTileRenderManager(TileManager tileManager) {
+    private TileRenderManager setupTileRenderManager(TileCache tileCache) {
         ArrayList<TileRenderable> tileRenderables = new ArrayList<>();
 
-        for (TileType tile : tileManager.getTiles()) {
+        for (TileType tile : tileCache.getTiles()) {
             if (tile  instanceof TileRenderable renderable) {
                 tileRenderables.add(renderable);
             }
@@ -63,13 +65,15 @@ public class GameWorld {
 
     public void update() {
         GameContext gameContext = new GameContext(
-                tileManager.getTiles(),
-                entityManager.getEnemies(),
-                entityManager.getPlayer()
+                entityCache,
+                tileCache
         );
+        updateEntities(gameContext);
+    }
 
+    private void updateEntities(GameContext gameContext) {
         playerController.update(gameContext);
-        for (EntityType enemy : entityManager.getEnemies()) {
+        for (EntityType enemy : entityCache.getEnemies()) {
             enemyController.update((Enemy) enemy, gameContext);
         }
     }

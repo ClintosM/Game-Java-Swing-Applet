@@ -1,88 +1,67 @@
 package jgame.entities.player;
 
-import jgame.entities.common.EntityType;
+import jgame.utils.MotionMath;
+import jgame.entities.common.interfaces.EntityType;
 
 import java.awt.event.KeyListener;
-import java.util.Set;
 
 public class PlayerMovementController {
-    private PlayerInputHandler inputHandler;
-    Set<Integer> keyEvents;
+    private final PlayerInputHandler inputHandler;
+    private final EntityType player;
 
-    private static final float ACCEL_RATE = 0.9f;
-    private static final float DECEL_RATE = 0.2f;
+    private final float ACCEL_RATE = 0.9f;
+    private final float DECEL_RATE = 0.2f;
+    private final float maxSpeed;
 
     public PlayerMovementController(EntityType player, PlayerInputHandler inputHandler) {
+        this.player = player;
         this.inputHandler = inputHandler;
-        this.keyEvents = inputHandler.getKeyEvents();
-    }
-
-    private float applyAcceleration(float currentSpeed, float targetSpeed, float accelRate) {
-        if (currentSpeed < targetSpeed) {
-            currentSpeed += accelRate;
-            if (currentSpeed > targetSpeed) currentSpeed = targetSpeed;
-        } else if (currentSpeed > targetSpeed) {
-            currentSpeed -= accelRate;
-            if (currentSpeed < targetSpeed) currentSpeed = targetSpeed;
-        }
-        return currentSpeed;
-    }
-
-
-    private float applyDeceleration(float currentSpeed, float decelRate) {
-        if (currentSpeed > 0) {
-            currentSpeed -= decelRate;
-            if (currentSpeed < 0) currentSpeed = 0;
-        } else if (currentSpeed < 0) {
-            currentSpeed += decelRate;
-            if (currentSpeed > 0) currentSpeed = 0;
-        }
-        return currentSpeed;
+        this.maxSpeed = player.getMovementSpeed();
     }
 
     private int normalizeMovementKey(int keyEvent) {
-        return keyEvents.contains(keyEvent) ? 1 : 0;
+        return inputHandler.getKeyEvents().contains(keyEvent) ? 1 : 0;
     }
 
-    private void horizontalMovementCheck(EntityType player) {
+    private void horizontalMovementCheck() {
         int left = normalizeMovementKey(PlayerMovementControls.MOVE_LEFT);
         int right = normalizeMovementKey(PlayerMovementControls.MOVE_RIGHT);
-        float maxSpeed = player.getMovementSpeed();
 
         if (left != right) {
             float target = (-left + right) * maxSpeed;
-            float hspd = applyAcceleration(player.getHorizontalSpeed(), target, ACCEL_RATE);
-            player.setHorizontalSpeed(hspd);
+            float xVel = MotionMath.applyAcceleration(player.getXVelocity(), target, ACCEL_RATE);
+            player.setXVelocity(xVel);
         } else {
-            float hspd = applyDeceleration(player.getHorizontalSpeed(), DECEL_RATE);
-            player.setHorizontalSpeed(hspd);
+            float xVel = MotionMath.applyDeceleration(player.getXVelocity(), DECEL_RATE);
+            player.setXVelocity(xVel);
         }
     }
 
-    private void verticalMovementCheck(EntityType player) {
+    private void verticalMovementCheck() {
         int up = normalizeMovementKey(PlayerMovementControls.MOVE_UP);
         int down = normalizeMovementKey(PlayerMovementControls.MOVE_DOWN);
-        float maxSpeed = player.getMovementSpeed();
 
         if (up != down) {
             float target = (-up + down) * maxSpeed;
-            float vspd = applyAcceleration(player.getVerticalSpeed(), target, ACCEL_RATE);
-            player.setVerticalSpeed(vspd);
+            float yVel = MotionMath.applyAcceleration(player.getYVelocity(), target, ACCEL_RATE);
+            player.setYVelocity(yVel);
         } else {
-            float vspd = applyDeceleration(player.getVerticalSpeed(), DECEL_RATE);
-            player.setVerticalSpeed(vspd);
+            float yVel = MotionMath.applyDeceleration(player.getYVelocity(), DECEL_RATE);
+            player.setYVelocity(yVel);
         }
     }
 
-
-    protected void updatePosition(EntityType player) {
-        keyEvents = inputHandler.getKeyEvents();
-        horizontalMovementCheck(player);
-        verticalMovementCheck(player);
-        player.moveBy(player.getHorizontalSpeed(), player.getVerticalSpeed());
+    protected void update() {
+        horizontalMovementCheck();
+        verticalMovementCheck();
+        translatePlayer();
     }
 
-    public KeyListener getKeyListener() {
-        return (KeyListener) inputHandler;
+    private void translatePlayer() {
+        float xVel = player.getXVelocity();
+        float yVel = player.getYVelocity();
+        player.moveBy(xVel, yVel);
     }
+
+    public KeyListener getKeyListener() { return (KeyListener) inputHandler; }
 }

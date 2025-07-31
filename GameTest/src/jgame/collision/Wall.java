@@ -3,7 +3,7 @@ package jgame.collision;
 import jgame.containers.Position;
 import jgame.containers.SizeDimensions;
 import jgame.containers.SizeDimensionsType;
-import jgame.core.TileRenderable;
+import jgame.core.render.interfaces.TileRenderable;
 
 import java.awt.*;
 

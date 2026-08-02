@@ -17,7 +17,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello JGame");
         GameCanvas canvas = new GameCanvas();
         GameFrame frame = new GameFrame(canvas);
 
@@ -43,8 +42,8 @@ public class Main {
     }
 
     private static MapObjects createMapObjects() {
-        MapsManager mapsManager = new MapsManager(List.of("map2"));
-        return mapsManager.buildObjectsFromMap("map2");
+        MapsManager mapsManager = new MapsManager(List.of("map1"));
+        return mapsManager.buildObjectsFromMap("map1");
     }
 
     private static EnemyController setupEnemyController(EntityType playerTarget) {

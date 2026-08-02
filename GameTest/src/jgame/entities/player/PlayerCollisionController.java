@@ -22,15 +22,10 @@ public class PlayerCollisionController {
 
         if (shouldCollideWithCandidate) {
             currentCollidable = candidate;
-            redirectPlayer();
             System.out.println("Is colliding!");
         } else if (currentCollidable != null && !playerCollidable.isColliding(currentCollidable)) {
             currentCollidable = null;
             System.out.println("NOT colliding!");
         }
-    }
-
-    private void redirectPlayer() {
-
     }
 }

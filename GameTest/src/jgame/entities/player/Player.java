@@ -36,30 +36,54 @@ public final class Player implements EntityType, EntityRenderable {
 
     // MARK: - Getters
 
-    public SizeDimensionsType getSize() { return model.getSize(); }
+    public SizeDimensionsType getSize() {
+        return model.getSize();
+    }
 
-    public float getMovementSpeed() { return model.getMovementSpeed(); }
+    public float getMovementSpeed() {
+        return model.getMovementSpeed();
+    }
 
-    public CollidableType getCollidable() { return state.getCollidable(); }
+    public CollidableType getCollidable() {
+        return state.getCollidable();
+    }
 
-    public float getXVelocity() { return state.getXVelocity(); }
+    public float getXVelocity() {
+        return state.getXVelocity();
+    }
 
-    public float getYVelocity() { return state.getYVelocity(); }
+    public float getYVelocity() {
+        return state.getYVelocity();
+    }
 
-    public Position getPosition() { return state.getPosition(); }
+    public Position getPosition() {
+        return state.getPosition();
+    }
 
-    public float getX() { return state.getX(); }
+    public float getX() {
+        return state.getX();
+    }
 
-    public float getY() { return state.getY(); }
+    public float getY() {
+        return state.getY();
+    }
 
     // MARK: - Operations
 
-    public void setXVelocity(float newVel) { state.setXVelocity(newVel); }
+    public void setXVelocity(float newVel) {
+        state.setXVelocity(newVel);
+    }
 
-    public void setYVelocity(float newVel) { state.setYVelocity(newVel); }
+    public void setYVelocity(float newVel) {
+        state.setYVelocity(newVel);
+    }
 
-    public void moveBy(float dx, float dy) { state.moveBy(dx, dy); }
+    public void moveBy(float dx, float dy) {
+        state.moveBy(dx, dy);
+    }
 
-    public void moveTo(float x, float y) { state.moveTo(x, y); }
+    public void moveTo(float x, float y) {
+        state.moveTo(x, y);
+    }
 }
 

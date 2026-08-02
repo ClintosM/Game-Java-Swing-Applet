@@ -20,7 +20,7 @@ public final class PlayerController implements EntityControllerType {
     }
 
     public void update(GameContext gameContext) {
-        movementController.update();
+        movementController.update(gameContext);
         collisionUpdates(gameContext);
     }
 

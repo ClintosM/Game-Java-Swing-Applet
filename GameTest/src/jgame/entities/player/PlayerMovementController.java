@@ -1,5 +1,6 @@
 package jgame.entities.player;
 
+import jgame.core.game.GameContext;
 import jgame.utils.MotionMath;
 import jgame.entities.common.interfaces.EntityType;
 
@@ -8,6 +9,8 @@ import java.awt.event.KeyListener;
 public class PlayerMovementController {
     private final PlayerInputHandler inputHandler;
     private final EntityType player;
+
+    private boolean didCollide = false;
 
     private final float ACCEL_RATE = 0.9f;
     private final float DECEL_RATE = 0.2f;
@@ -23,7 +26,7 @@ public class PlayerMovementController {
         return inputHandler.getKeyEvents().contains(keyEvent) ? 1 : 0;
     }
 
-    private void horizontalMovementCheck() {
+    private void executeHorizontalMovement() {
         int left = normalizeMovementKey(PlayerMovementControls.MOVE_LEFT);
         int right = normalizeMovementKey(PlayerMovementControls.MOVE_RIGHT);
 
@@ -37,7 +40,7 @@ public class PlayerMovementController {
         }
     }
 
-    private void verticalMovementCheck() {
+    private void executeVerticalMovement() {
         int up = normalizeMovementKey(PlayerMovementControls.MOVE_UP);
         int down = normalizeMovementKey(PlayerMovementControls.MOVE_DOWN);
 
@@ -51,9 +54,9 @@ public class PlayerMovementController {
         }
     }
 
-    protected void update() {
-        horizontalMovementCheck();
-        verticalMovementCheck();
+    protected void update(GameContext gameContext) {
+        executeHorizontalMovement();
+        executeVerticalMovement();
         translatePlayer();
     }
 
@@ -63,5 +66,7 @@ public class PlayerMovementController {
         player.moveBy(xVel, yVel);
     }
 
-    public KeyListener getKeyListener() { return (KeyListener) inputHandler; }
+    public KeyListener getKeyListener() {
+        return (KeyListener) inputHandler;
+    }
 }
